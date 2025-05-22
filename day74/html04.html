@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 태그 학습</title>
+</head>
+<body>
+    <h1>헤딩1</h1>
+    <h2><a href="#lorem">헤딩2</a></h2>
+    <h3>헤딩3</h3>
+    <h4>헤딩4</h4>
+    <h5>헤딩5</h5>
+    <p>문장영역입니다. 두      번째 문장입니다.<br/> HTML에서는 엔터가 표현되지 않습니다. <br/> 그래서 br태그를 사용하여 엔터를 표현합니다.<br/>
+    스페이스도 하나이상 표현이 안됩니다. <br> 그래서 &nbsp;&nbsp;특수문자를 사용합니다. 특수문자에는 &와 ; 사이에 문자로 표현합니다.<br/>
+    스페이스의 경우에는 &와 ; 사이에 nbsp을 씁니다.  <br> a태그는 href속성과 target속성을 가진다. <br> target = _blank는 새창에서 링크연결된 웹페이지를 연다. <br>
+        Oracle&trade;<a href="https://www.microsoft.com/" target="_blank">Microsoft &copy; Ltd.</a>
+    </p>
+    <p>문장영역<del>2</del>입니다.</p>
+    <div>첫번째 영역 : div태그는 css로 화면 디자인할 때 영역을 구분할 때 사용</div>
+    <div>두번째 영역 : 화면디자인 시 무지막지하게 많이 사용됨</div>
+    <p>세번째 영역: <ins>샘플텍스트</ins> 만들어주는 기능이 존재합니다. Lorem 숫자를 입력하고 탭 누릅니다.<br> <br> <br> <br> </p>
+    <p id="lorem"><i>Lorem ipsum dolor</i>, <small>sit amet </small> consectetur <sub>elit. </sub> Minus <sup>assumenda</sup> et recusandae ipsa aperiam, deleniti veritatis similique ut reprehenderit expedita sed, accusantium dolor maiores voluptatum inventore odit tempore, modi rem!</p>
+    <h3>네비게이션 메뉴</h3>
+    <p>메뉴는 대부분 ul로 생성합니다.</p>
+    <ul>
+        <li><a href="https://sports.news.naver.com/index" target="_blank">스포츠뉴스</a></li>
+        <li><a>연예뉴스</a></li>
+
+    </ul>
+
+    <h3>테이블</h3>
+    <p>xaml의 grid와 동일한 기능</p>
+    <table  border="1">
+        <tr>
+            <th>항목1</th>
+            <th>항목2</th>
+            <th>항목3</th>
+        </tr>
+            <tr>
+                <td>100</td>
+                <td>200</td>
+                <td>300</td>
+            </tr>
+            <tr>
+                <td>400</td>
+                <td colspan="2">500</td>
+            </tr>
+        
+      
+    </table>
+
+    <h3>이미지</h3>
+    <img src="./html이미지.png" width="500">
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다양한 입력양식</title>
+</head>
+<body>
+    <h3>입력태그</h3>
+    <form>
+        <input type="text" name="text" value="텍스트"/><br>
+        <input type="password" name="password" value="12345" /><br>
+        <input type="checkbox" name="checkbox" checked="true" >오렌지</input>
+        <input type="checkbox" name="checkbox"  >블루베리</input><br>
+        <input type="radio" name="radio" checked="false">여 </input>
+        <input type="radio" name="radio" >남 </input><br>
+        <input type="file" name="file" >
+        <!--Hidden값 화면에 나타나지 않고 페이지 내부에서 보관 
+         개발자코드로 보면 다 보임 ,보안에 취약, 조심해서 사용-->
+        <input type="hidden" name="currpass" value="123456"/>
+        <input type="color" name="color" value = "#ffff00"><br>
+        <input type="date" name="date"><br>
+        <input type="email" name="email" value="concourrency@incsharp"> <br>
+        <input type="month" name="month" value="2025-05">
+        
+        <fieldset>
+            <legend>회원정보</legend>
+            <input type="text" name="text" value="아이디"/><br>
+            <input type="password" name="password" value="12345" /><br>
+        </fieldset>
+
+        <select>
+            <optgroup label="성심당 빵목록">
+                <option value="b_b">보문산메아리</option>
+                <option value="b_j">작은메아리</option>
+                <option value="c_m">망고시루</option>
+            </optgroup>
+            <optgroup label="프로야구 팀목록">
+                <option value="t1">이글스</option>
+                <option value="t2">다이노스</option>
+                <option value="t3">자이언츠</option>
+            </optgroup>
+        </select>   <br>
+        <textarea cols="60" rows="5">
+            글자많이 쓸 때
+        </textarea><br>
+
+        <!--버튼 종류-->
+        <input type="submit" value="중요"/> <br>
+        <input type="button" value="기본"/> <br>
+        <input type="reset" value="초기화"/><br>
+        
+    </form>
+</body>
+</html>

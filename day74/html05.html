@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML입력태그</title>
+</head>
+<body>
+    <h3>입력양식</h3>
+    <p>항상 form 태그 안에 작성할 것.<br>
+        input type에는 여러가지 많음(text, number 등)
+        <br> 버튼 클릭시 저장이나 동작이 발생함. input type="submit"이 일반적인 저장버튼임. </p>
+    <form method="post">
+        <input type="text" name="search">
+        <input type="date" name="date">
+        <input type="submit">
+    </form>
+
+    <p>form의 데이터 전달방식은 <b>get, post</b>가 가장 많이 사용됨<br>
+    get방식은 url로 데이터를 직접 입력해서 전달하는 방식<br>
+  post방식은 별도의 방식(숨겨서)으로 데이터를 해당주소로 전달하는 방식</p>
+  
+  
+  <p>1. get방식 URL <br>http://127.0.0.1:5500/day74/html05.html?search=%EC%96%B8%EC%8A%AC%EC%A0%84&date=2025-05-18</p>
+  <img src ="./폼get방식.png" >
+  <p>2. post방식은 javascript나 서버기술이 필요, 화면전환도 필요</p>
+  <img src ="./폼post방식.png" >
+</form>
+</body>
+</html>
