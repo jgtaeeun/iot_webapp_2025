@@ -1,0 +1,241 @@
+0. vs code 확장 - Live Server 설치
+
+1.HTML
+열린태그, 닫힌태그
+head , body(header, container, footer-시맨틱웹)
+
+- h1~h6 : 제목글자
+- p, br, hr : 본문, 한줄내려가기, 가로줄
+- div : 영역구분
+- a : 링크
+- b/strong, i, small, sub, sup, ins/u, del  : 굵은체, 이탤릭체, 작은글씨, 아래첨자, 위첨자 ,밑줄, 삭제표시밑줄 ...
+- ul/ol , li : 동그라미목록/순번목록, 목록아이템
+- table, tr, th, td : 테이블, 테이블로우, 테이블헤더, 테이블컬럼
+- form, input, button, select, textarea, label : 폼, 폼 입력양식, 버튼, 콤보박스, 여러줄텍스트박스, 라벨
+- img , audio, video : 이미지, 오디오, 비디오
+- progress : 진행률
+
+ <a id="link" href="https://www.naver.com/" target="_blank">네이버</a>
+<img src='./img.png' width=500/>
+<form method="get">
+        <input type="text" name="text" value="텍스트"/>
+	<input type="submit">
+</form>
+ <fieldset>
+            <legend>회원정보</legend>
+            <input type="text" name="text" value="아이디"/><br>
+            <input type="password" name="password" value="12345" /><br>
+</fieldset>
+
+<select>
+            <optgroup label="성심당 빵목록">
+                <option value="b_b">보문산메아리</option>
+                <option value="b_j">작은메아리</option>
+                <option value="c_m">망고시루</option>
+            </optgroup>
+            <optgroup label="프로야구 팀목록">
+                <option value="t1">이글스</option>
+                <option value="t2">다이노스</option>
+                <option value="t3">자이언츠</option>
+            </optgroup>
+</select>  
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>이름</th>
+      <th>나이</th>
+      <th>직업</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>홍길동</td>
+      <td>30</td>
+      <td>개발자</td>
+    </tr>
+    <tr>
+      <td>김철수</td>
+      <td>25</td>
+      <td>디자이너</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<ul>
+
+2. CSS
+<style >
+
+태크/아이디/클래스 {
+        key : value ;  /* 주석*/
+ }
+</style >
+
+margin: 0 auto; 주로 가로로 중앙 정렬을 할 때 사용됩니다.
+float: left; 왼쪽으로 정렬하거나, 여러 요소들을 나란히 배치하고자 할 때 사용
+
+
+
+ /*아이디*/
+#wv {
+                color : red;
+}
+/*클래스*/
+ .item {
+            color : rgb(95, 187, 87);
+ }
+ .focus {
+            background-color: gray;
+}
+
+/*태그선택자 중 속성선택자*/
+ input[type="text"] {
+            background-color: antiquewhite;
+}
+
+/*1.0em = 100% , 상대적*/
+/*px도 많이 사용, 절대적*/
+ p:nth-child(1)
+{
+        font-size: 1.0em;
+}
+
+
+
+[레이아웃, 중앙정렬, 수평정렬]  
+    <style>
+    * {
+        margin :0 ;
+        padding : 0 ;
+    }
+	/*중앙정렬*/
+    body {
+        margin: 0 auto; 
+        width: 800px;
+    }
+
+     /*수평정렬*/
+    div.container {
+        overflow: hidden;
+    }
+
+    div.item {
+        float: left;
+        margin: 0 5px;
+        padding: 10px;
+        border: 2px solid brown;
+    }
+    </style>
+
+
+3. JavaScript
+Java(컴파일러언어)와 아무런 관계없음
+
+
+<script>
+//주석
+ var dried_mango = {
+            name : '7D Dried mangoes' ,
+            manufacturer  : '7D Foods Corporation',
+            weight : '500g',
+            origin : 'Philippines',
+            calories : 320
+        }
+        
+        console.log(dried_mango);
+        console.log(dried_mango.name);
+        console.log(JSON.stringify(dried_mango));
+        console.log(dried_mango["weight"])
+</script>
+
+
+-변수선언 : var(전역, 지역), let(지역)
+- 변수타입 : 숫자, 문자열, 불린, ...
+        - null : undefined
+-연산자 : 비교연산자, 수식연산자, 논리연산자 , ...
+    - 차이점 : === (값과 타입이 완전 일치)
+- 제어 : if, while, for
+- 함수 : function
+
+- 디버깅 출력 : console.log()
+- 화면메시지박스 : alert()
+
+3-1. `<head>` 안에 `<script>` 작성  [스크립트연습1](./day75/html05.html)
+    - 스크립트가 문서 로딩 전에 반드시 실행되어야 할 경우
+
+3-2. `<body>` 끝에 `<script>` 작성 (일반적으로 추천) [스크립트연습1](./day75/html06.html)
+    - 대부분의 경우.
+    - HTML 요소들이 모두 로딩된 후 스크립트를 실행해야 할 때.
+    - DOM 조작 시 오류를 방지할 수 있음.
+
+
+4. DOM
+//1개 객체를 선택
+ document.getElementById(아이디)
+document.querySelector(태그)
+
+//여러개 객체를 선택
+ document.getElementsByName(이름)
+ document.getElementsByClassName(클래스)
+ document.querySelectorAll(선택자)  //FOR 반복문으로 후처리
+
+
+document.querySelector("button").getAttribute("onClick")
+document.querySelector("button").setAttribute("onClick", "alert('안녕하세요')");
+
+
+ document.querySelector("h1").style.backgroundColor = "#ff0000";
+ document.querySelector("p").style.color = "green";
+ document.querySelector("p").style.fontStyle = "Italic";
+
+
+
+ window.onload =function(event){
+                var link = document.getElementById("link");
+                link.onclick= function (){
+                    alert("창이 안 뜹니다.");
+                    return false;
+        }
+  }
+ <a id="link" href="https://www.naver.com/" target="_blank">네이버</a>
+
+4. JQuery
+-CDN 방식으로 사용
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" 
+crossorigin="anonymous"></script>
+
+
+- 모든 DOM객체에 접근할 때 `$(선택자|아이디|클래스) 후 처리`
+- jQuery 이벤트
+    - .on('이벤트' , function(){}) 또는 funcion() {}
+ 
+   $(document).ready(function() {
+
+        $('#box').css ({
+        'background-color' : 'orange',
+        'width' : 100,
+        'height' :100,
+        'margin' : '5px'
+        }).on('click' , function() {
+            $(this).css('background-color' , 'red')
+        }).on('mouseenter' , function() {
+            $(this).css('background-color' , 'blue')
+        }).on('mouseleave' , function() {
+            $(this).css('background-color' , 'orange')
+            $(this).css('border-radius' , '0')
+
+        })
+        });
+
+5. 비교정리
+css   , JQuery   |      JS
+color            |        color
+background-color   |     backgroundColor
+
+
+ <!--css 외부스타일 적용-->
+    <link rel="stylesheet" href="./html03.css"/>
+    <!--외부 js -->
+   <script src="./html03.js"></script>

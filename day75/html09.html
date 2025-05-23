@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" 
+    crossorigin="anonymous"></script>
+    <script>
+         // 문서가 준비되면 실행
+        $(document).ready(function () {
+            $('h1').css('color', 'red');
+            $('h1').css('background-color' , 'yellow');
+        });
+
+        function makeGradient() {
+            let output ='';
+            for (let i = 0 ; i<256 ; i++)
+            {
+                output += "<div></div>";
+            }
+            $('body').html(output);
+            $('div').each(function(i) {
+                $(this).css ('height' , '2px');
+                $(this).css ('background-color' , `rgb(${i},${i},${i})`);
+            })
+        }
+    </script>
+</head>
+<body>
+    <h1>제목1</h1>
+    <h1>제목2</h1>
+    <h1>제목3</h1>
+    <button onclick="makeGradient()">생성</button>
+</body>
+</html>

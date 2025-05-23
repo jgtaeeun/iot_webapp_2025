@@ -152,6 +152,270 @@ iot 개발자 과정 ASP.NET Core 학습 리포지토리
     - Qt,  PyQt , Electron, Flutter(모바일), React Native(모바일), React.js ...
 
 ## 75일차(5/23)
+- HTML, CSS, JS 는 "(쌍따옴표),'(홑따옴표) 동시 사용가능
+- Python은 ''을 추천, 웹은 "" 추천
+
+### 웹 표준기술 - CSS
+- `style 태그 안에 주석은 /**/`
+- css 학습 
+    1. [후손선택자,반응선택자,속성선택자](./day75/html01.html)
+    ```css
+        /*아이디*/
+        #wv {
+                color : red;
+            }
+        /*클래스*/
+        .item {
+            color : rgb(95, 187, 87);
+        }
+        .focus {
+            background-color: gray;
+        }
+
+        /*태그선택자 중 속성선택자*/
+        input[type="text"] {
+            background-color: antiquewhite;
+        }
+    ```
+    2. [css p태그 글자크기](./day75/html02.html)
+    3. [Margin, Padding, Border](./day75/html03.html)
+    4. [레이아웃, 중앙정렬, 수평정렬](./day75/html04.html)
+    ```css
+    <style>
+    * {
+        margin :0 ;
+        padding : 0 ;
+    }
+    body {
+        margin: 0 auto;
+        width: 800px;
+    }
+
+     /*수평정렬*/
+    div.container {
+        overflow: hidden;
+    }
+
+    div.item {
+        float: left;
+        margin: 0 5px;
+        padding: 10px;
+        border: 2px solid brown;
+    }
+    </style>
+    ```
+### 웹 표준기술 - JavaScript
+- Java(컴파일러언어)와 아무런 관계없음
+- 스크립트언어
+
+#### 기본문법
+- `script 태그 안에 주석은 //`
+- HTML내에 script 태그 내에 작성
+
+1. 키워드
+    - <img src='./day75/자바스크립트키워드예약어.png'>
+2. **변수선언이 var(전역, 지역), let(지역)**
+    - 변수타입 : 숫자, 문자열, 불린, ...
+        - null : undefined
+3. 문장 끝에 ; 생략이 가능하지만 되도록 적을 것
+4. 출력확인
+    - 디버깅 출력 : console.log()
+    - 화면메시지박스 : alert()
+5. 연산자 : 비교연산자, 수식연산자, 논리연산자 , ...
+    - 차이점 : === (값과 타입이 완전 일치)
+6. 제어 : if, while, for
+7. 함수 : function
+
+#### JavaScript 객체
+- JSON : 자바스크립트 객체를 표현하는 방식
+- 매우 편리하여 표준으로 지정하고 모든 IT분야에서 사용중
+```js
+  var dried_mango = {
+            name : '7D Dried mangoes' ,
+            manufacturer  : '7D Foods Corporation',
+            weight : '500g',
+            origin : 'Philippines',
+            calories : 320
+        }
+        
+        console.log(dried_mango);
+        console.log(dried_mango.name);
+        console.log(JSON.stringify(dried_mango));
+        console.log(dried_mango["weight"])
+```
+1. `<head>` 안에 `<script>` 작성  [스크립트연습1](./day75/html05.html)
+    - 스크립트가 문서 로딩 전에 반드시 실행되어야 할 경우
+
+2. `<body>` 끝에 `<script>` 작성 (일반적으로 추천) [스크립트연습1](./day75/html06.html)
+    - 대부분의 경우.
+    - HTML 요소들이 모두 로딩된 후 스크립트를 실행해야 할 때.
+    - DOM 조작 시 오류를 방지할 수 있음.
+#### DOM 학습 [DOM학습1](./day75/html07.html)[ DOM학습2](./day75/html08.html)
+- HTML문서의 구조를 JS에서 접근할 수 있는 개념
+- HTML태그를 JS로 조작한다는 의미
+- DOM에서 쓰이는 주요 함수들
+    ```
+        //1개 객체를 선택
+        document.getElementById(아이디)
+        document.querySelector(태그)
+
+        //여러개 객체를 선택
+        document.getElementsByName(이름)
+        document.getElementsByClassName(클래스)
+        document.querySelectorAll(선택자)
+    ```
+- DOM 학습
+    1. 함수를 통한 css속성처럼 JS로 속성변경 및 속성GET
+    ```js
+    <script>
+            function changeSentence() {
+                /*
+                css
+                h1 {
+                    background-color : red ;
+                }
+
+                JS속성
+                backgroundColor : -를 제거하고 뒤쪽 단어를 대문자로 시작
+                */
+                
+                document.querySelector("h1").style.backgroundColor = "#ff0000";
+                document.querySelector("h1").style.color = "#ffffff";
+                document.querySelector("p").style.color = "green";
+                document.querySelector("p").style.fontStyle = "Italic";
+
+                var value = document.querySelector("button");
+                alert (value.getAttribute("onClick"));
+                //value.setAttribute("속성", 변경할 값);
+            }
+    </script>
+
+    <button onclick="changeSentence()">클릭</button>
+    ```
+    2.  document.querySelectorAll은 반복문
+    ```js
+
+        window.onload = function () {
+
+            var temps = document.querySelectorAll("p");
+            for (var i = 0 ;  i < temps.length ; i++)
+            {   var temp =temps[i]
+                temp.style.color = "orange";
+            }
+        }
+    ```
+    3. window_onload()함수 + 날짜시간형식 + innerHTML
+    ```js
+        window.onload =function(){
+                    var clock = document.getElementById("clock");
+                    setInterval(function() {
+                        var now = new Date();
+                        var format = new Intl.DateTimeFormat('sv-SE', {
+                            dateStyle : 'short',
+                            timeStyle : 'medium'
+                        }).format(now);
+                        clock.innerHTML = format;
+                    }, 1000) ; //1000ms =>1초
+
+        }
+
+        <p id="clock"></p>
+    ```
+    4. 버튼이 아닌곳에 버튼 이벤트를 지정
+    ```js
+        window.onload =function(event){
+                var link = document.getElementById("link");
+                link.onclick= function (){
+                    alert("창이 뜹니다.")
+                    return true
+                }
+            }
 
 
+        <a id="link" href="https://www.naver.com/" target="_blank">네이버</a>
+    ```
+
+#### jQuery [jQuery학습](./day75/html09.html)
+- JavaScript DOM의 복잡한 사용법을 개선하려고 만든 라이브러리
+- 2006년도 개발. 2023년까지 업데이트
+- https://jquery.com/
+- Vanila JS(순수 JS) 방식으로 변경되고 있음
+
+- CDN 방식으로 사용
+    ```html
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" 
+        crossorigin="anonymous"></script>
+    ```
+- 모든 DOM객체에 접근할 때 `$(선택자|아이디|클래스) 후 처리`
+- jQuery 이벤트
+    - .on('이벤트' , function(){}) 또는 funcion() {}
+    - <img src='./day75/jquery이벤트.png'>
+- jQuery학습
+    1. $(태그)
+        ```JS
+        <script>
+                // 문서가 준비되면 실행
+                $(document).ready(function () {
+                    $('h1').css('color', 'red');
+                    $('h1').css('background-color' , 'yellow');
+                });
+
+                function makeGradient() {
+                    let output ='';
+                    for (let i = 0 ; i<256 ; i++)
+                    {
+                        output += "<div></div>";
+                    }
+                    $('body').html(output);
+                    $('div').each(function(i) {
+                        $(this).css ('height' , '2px');
+                        $(this).css ('background-color' , `rgb(${i},${i},${i})`);
+                    })
+                }
+            </script>
+        ```
+    2. 백틱문자 
+        ```JS
+        $(this).css ('background-color' , `rgb(${i},${i},${i})`);
+        ```
+
+    3. $(#아이디)
+        ```js
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" 
+        crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function() {
+                $('#btnEffect').on('click', function() {
+                    alert('버튼클릭완료')
+                })
+            });
+        </script>
+
+        <button id="btnEffect">클릭</button>
+        ```
+    4. js파일을 따로 빼서 css, 이벤트 작성 [js파일](./day75/jquery10.js)
+        ```js
+        $(document).ready(function() {
+
+        $('#box').css ({
+        'background-color' : 'orange',
+        'width' : 100,
+        'height' :100,
+        'margin' : '5px'
+        }).on('click' , function() {
+            $(this).css('background-color' , 'red')
+        }).on('mouseenter' , function() {
+            $(this).css('background-color' , 'blue')
+        }).on('mouseleave' , function() {
+            $(this).css('background-color' , 'orange')
+            $(this).css('border-radius' , '0')
+
+        })
+        });
+        ```
+    5. 애니메이션 , 토글 [js파일](./day75/jquery10.js)
+####  Vanila JS
+- 순수 JS로 불리며 JQuery처럼 CDN링크가 필요없음
+- 전통적 방식보다 효율적으로 변경됨
+- 새로 개발되는 웹사이트는   Vanila JS를 사용   
 ## 76일차(5/26)

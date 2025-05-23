@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 계속</title>
+    <style>
+        /*클래스*/
+        .wv {
+            color : red;
+        }
+
+       .item {
+            color : rgb(95, 187, 87);
+        }
+        .focus {
+            background-color: gray;
+        }
+        /*태그선택자 중 속성선택자*/
+        input[type="text"] {
+            background-color: antiquewhite;
+        }
+        input[type='password']{
+            background-color: aquamarine;
+        }
+        input[type="submit"] {
+            background-color: blueviolet;
+            color: white;
+        }
+        /*후손선택자*/
+        #section .title {
+            color  :brown;
+        }
+        #section > p {
+            color : yellowgreen;
+        }
+
+        /*반응선택자*/
+        input:focus {
+            background-color: blueviolet;
+        }
+
+       
+        #menutab {
+            overflow: hidden;
+        }
+
+        #menutab li {
+            list-style: none;
+            float:  left;
+            padding: 10px 5px 15px 20px;  /*위 오른쪽 아래 왼쪽*/
+        }
+
+         /*구조 선택자*/
+        #menutab li:nth-child(2n) {
+            background-color: coral;
+        }
+
+        #menutab li:nth-child(2n+1) {
+            background-color: rgb(170, 196, 54);
+        }
+
+        #menutab li:first-child{
+            border-radius: 10px  0px ; 
+        }
+
+        #menutab li:last-child {
+            border-radius:  0px 10px 10px 0px;
+        }
+    
+        
+    </style>
+</head>
+<body>
+    <ul>
+        <li class= "item focus">현대스카이워커스</li>
+        <li>kb스타즈</li>
+        <li>삼성블루팡스</li>
+        <li class="wv">ai페퍼스</li>
+        <li class="wv">흥국 핑크스파이더스</li>
+    </ul>
+    <br>
+    <form>
+        <input type="text" value="오이영"> <br>
+        <input type="password" value = "12345"/><br>
+        <input type="submit"><br>
+    </form>
+    <input type="text">
+    <div id="section">
+        <h2 class="title">Lorem ipsum</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    </div>
+
+
+    <ul id="menutab">
+        <li>네이버</li>
+        <li>다음</li>
+        <li>구글</li>
+        <li>야후</li>
+        <li>트위터</li>
+    </ul>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, dolores.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, dolores.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, dolores.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, dolores.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, dolores.</p>
+
+</body>
+</html>
