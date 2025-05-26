@@ -513,6 +513,7 @@ iot 개발자 과정 ASP.NET Core 학습 리포지토리
 
 https://github.com/user-attachments/assets/afb6c357-ebf5-45ca-8d58-e0cc5819f0bb
 
+#### [부트스트랩 이미지 갤러리](./day76/html06.html)
 
 
 #### 부트스트랩 템플릿 사이트
@@ -527,5 +528,7 @@ https://github.com/user-attachments/assets/afb6c357-ebf5-45ca-8d58-e0cc5819f0bb
     - [themewagon](https://themewagon.com/theme-price/free/)
     - [bootstrapmade](https://bootstrapmade.com/) : 출처표기 필수!
     - [graygrids](https://graygrids.com/templates?type=free)
+
+## 77일차(5/27)
 ### 프론트엔드 활용
 - HTML5 + CSS3 + JS + BootStrap 
