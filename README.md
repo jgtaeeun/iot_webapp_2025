@@ -1,5 +1,9 @@
 # iot_webapp_2025
 iot 개발자 과정 ASP.NET Core 학습 리포지토리
+### 이미지 참고 사이트
+- [Placehold](https://placehold.co/)
+- [Lorem Picsum](https://picsum.photos/)
+- [LoremFlickr](https://loremflickr.com/)
 
 ## 74일차(5/22)
 ### Web
@@ -419,3 +423,104 @@ iot 개발자 과정 ASP.NET Core 학습 리포지토리
 - 전통적 방식보다 효율적으로 변경됨
 - 새로 개발되는 웹사이트는   Vanila JS를 사용   
 ## 76일차(5/26)
+### 반응형웹
+- UTF-8이 적용되기 전 : 한국어 웹, 영어 웹, 일본어 웹 등 웹페이지를 언어별로 개발해야 함
+- 반응형 웹 이전 : PC용, 모바일용, 태블릿용 등 따로 웹 사이트를 개발해야 함
+- 문제 : 하나의 웹페이지가 수정되면 다른 웹페이지들도 다 수정해야함 ->시간, 돈 많이 든다.
+- 하나의 웹페이지로 기기, 언어문제를 전부 해결하고자 나온 기술 중 화면쪽 -> 반응형 웹
+-  반응형 웹 : 웹 , 모바일 등의 기기와 해상도에 상관없이 하나의 웹으로 모두 표현할 수 있는 웹화면 개발 기술
+- **HTML5에 반응형 웹 메타태그만 사용**
+    ```html
+    <head>
+        <!--반응형 웹 중요태그-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    ```
+    - 부트스트랩 학습 https://inpa.tistory.com/category/Style%20Sheet/Bootstrap5?page=2
+
+### 부트스트랩
+- 현재 전세계적으로 가장 많이 사용되는 오픈소스 CSS,JS 프레임워크
+- 트위터 블루프린트로 시작. 트위터 웹사이트를 꾸미기 위해서 개발시작
+- 현재 5.3 버전
+- 이전에는 jQuery 사용했으나 현재는 Pure JS로 전향되었음
+- [공식사이트](https://getbootstrap.com/)
+
+#### 부트스트랩 시작 
+- Bootstrap 시작하기 가이드 :  https://getbootstrap.com/docs/5.3/getting-started/introduction/#quick-start
+- [Bootstrap 시작 실습](./day76/html01.html)
+    - css와 js를 html파일에 복사붙여넣기 
+    - 실행결과, 글꼴이 바뀜
+    - <img src='./day76/부트스트랩반응전과후사진.png'>
+#### 부트스트랩 학습
+- 버튼 사용법[버튼+미디어쿼리 실습](./day76/html01.html)
+    ```html 
+    <input type="button" value="Primary" class="btn btn-outline-primary btn-sm">
+    ```
+     - <img src='./day76/부트스트랩버튼학습.png'>
+- 미디어 쿼리 : 웹페이지 사이즈에 따른 사용법을 위해 필요
+    - 부트스트랩에서 sm, md, lg 등의 infix를 사용할 경우가 많음
+    - X-Small : None(사용할 이름이 없음) (<576px)
+    - Small : sm (>=576px)
+    - Medium : md (>=768px)
+    - Large : lg (>=992px)
+    - Extra large : xl (>= 1200px)
+    
+- 컨테이너 : 기본 레이아웃에서 가장 중요! . 그리드 스타일이라고 부름
+    - [container](./day76/html02.html) : 일반적인 넓이 사용. 양쪽에 여백이 존재 .중앙 정렬 + 고정 너비
+    - container-fluid : 여백없이 웹페이지를 꽉채우는 스타일 .전체 너비 
+    - <img src='./day76/container-fluid.png'>
+    - `container > row > col 형식으로 사용`
+    - [각 grid은 최대 12까지 사용 권장](./day76/html03.html)
+- 정렬 클래스 [정렬](./day76/html04.html)
+    - *별 : start, center, end
+    - text-*
+    - align-self-*
+    - align-itmes-*
+    - justify-content-*
+    - [정렬 이미지 참고](https://inpa.tistory.com/entry/BootStrap5-%F0%9F%93%9A-%EB%B0%98%EC%9D%91%ED%98%95-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%A0%95%EB%A6%AC-%EC%A0%95%EB%A0%AC)
+- 거터 : 갭(안쪽여백) , padding과 동일 [거터](./day76/html04.html)
+    - g, gx, gy, g-number, gx-number, gy-number
+    - number : 1부터 5까지 사용가능
+    - g = gx + gy
+    - gx : 왼쪽, 오른쪽 안 여백
+    - gy : 위쪽, 아래쪽 안 여백
+- 여백을 위한 클래스   [여백](./day76/html04.html)
+    - number : 1부터 5까지 사용가능
+    - p, ps, pt, pb, pe, px, py  : padding
+    - m, ms(left), mt, mb, me(right), mx, my : margin
+    - start, top, end, bottom : 배율로 조정
+- 컴포넌트 학습 [accordion, alert, buttonBox, Badge 등](./day76/html05.html)
+    - Acoordion
+    - Alert : Button 클래스와 동일 primary ~light(link는 없음)
+    - Breadcrumb :메뉴경로
+    - Navbar, Navs & tabs : 메뉴 내비게이션바
+    - Button, Close button, Button group : 버튼관련 컴포넌트
+    - Card, Placeholders, Popovers, Toasts, Tooltips : 화면 영역 컴포넌트
+    - Pagination : 게시판 페이지 컴포넌트
+    - Progress, Spinners : 프로그레스바, 대기용 컴포넌트
+    - Carousel :  이미지 갤러리
+- 아이콘
+    - `https://icons.getbootstrap.com/`
+    - 부트스트랩이 지원해주는 아이콘
+    - python pyqt, leaflet.js(folium) 등에도 사용가능
+    - 추가 스타일시트 링크 필요(css)
+    ```html
+    <!--부트스트랩 아이콘-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <i class="bi bi-alarm"></i>
+    ```
+
+#### 부트스트랩 템플릿 사이트
+- 유료 템플릿
+    - [wrapbootstrap](https://wrapbootstrap.com/templates)
+    - [themeforest](https://themeforest.net/search/sns%20bootstrap)
+    - [themewagon](https://themewagon.com/theme-price/free/) 
+
+- 무료 템플릿
+    - [startbootstrap](https://startbootstrap.com/) : 무료템플릿 중 최고
+    - [bootswatch](https://bootswatch.com/)
+    - [themewagon](https://themewagon.com/theme-price/free/)
+    - [bootstrapmade](https://bootstrapmade.com/) : 출처표기 필수!
+    - [graygrids](https://graygrids.com/templates?type=free)
+### 프론트엔드 활용
+- HTML5 + CSS3 + JS + BootStrap 
