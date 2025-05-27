@@ -532,7 +532,7 @@ https://github.com/user-attachments/assets/afb6c357-ebf5-45ca-8d58-e0cc5819f0bb
 ## 77일차(5/27)
 ### 프론트엔드 활용
 - HTML5 + CSS3 + JS + BootStrap 반응형웹 응용예제  [반응형 갤러리 게시판 실습](./day76/html06.html)
-    - <img src='./day76/부트스트랩,CSS,JS,HTML 실습.png'>
+    - <img src='./day76/부트스트랩,CSS,JS,HTML 실습.png' width=500>
 
 #### HTML5 Responsive Web template
 - https://html5up.net/
@@ -639,6 +639,11 @@ https://github.com/user-attachments/assets/afb6c357-ebf5-45ca-8d58-e0cc5819f0bb
         <script src="./js/bootstrap.min.js"></script>
     </body>
     ```
+
+
+https://github.com/user-attachments/assets/68193364-7c84-403f-987c-f0c1c625ff52
+
+
 ## 78일차(5/28)
 
 
