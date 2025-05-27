@@ -531,4 +531,115 @@ https://github.com/user-attachments/assets/afb6c357-ebf5-45ca-8d58-e0cc5819f0bb
 
 ## 77일차(5/27)
 ### 프론트엔드 활용
-- HTML5 + CSS3 + JS + BootStrap 
+- HTML5 + CSS3 + JS + BootStrap 반응형웹 응용예제  [반응형 갤러리 게시판 실습](./day76/html06.html)
+    - <img src='./day76/부트스트랩,CSS,JS,HTML 실습.png'>
+
+#### HTML5 Responsive Web template
+- https://html5up.net/
+
+#### Modern Business 클로닝
+- Modern Business 샘플 클로닝
+    - https://startbootstrap.com/template/modern-business
+1. 모든 웹페이지 시작은 index.*(.html, .asp, .jsp, .cshtml...)
+2. 폴더 구성 (css, assets, js) , index.html
+3. assets폴더에 아이콘 favicon.ico 생성
+4. Bootstrap 다운로드 후 폴더에 구성(not CDN-CSS, JS코드 넣지 않고 직접 다운로드함)
+    - https://getbootstrap.com/docs/5.3/getting-started/download/ 에서 컴파일된 CSS 및 JS 다운로드 (bootstrap-5.3.6-dist)
+    - js폴더에 압축폴더에서 찾아서 넣기
+    - <img src='./day77/js폴더안.png'>
+    - css폴더에 압축폴더에서 찾아서 넣기
+    - <img src='./day77/css폴더안.png'>
+
+5. Bootstrap 아이콘 다운로드 후 폴더에 구성
+    - https://github.com/twbs/icons/releases/tag/v1.13.1 에서 bootstrap-icons-1.13.1 다운로드
+    - css폴더에 압축폴더에 있는 fonts폴더채로 넣기
+    - https://github.com/twbs/icons/blob/main/font/bootstrap-icons.css 에서 다운로드
+    - <img src='./day77/css에 아이콘관련.png'>
+6. index.html 디자인,태그 내에 Bootstrap 클래스 적용 [index.html](./day77/index.html)
+    - 태그 내에 Bootstrap 클래스 적용
+    ```
+    body
+    ├── div#main
+    │   ├── div#nav
+    │   ├── div#header
+    │   ├── div#features
+    │   ├── div#testimonial
+    │   └── div#blog_section
+    └── div#footer
+    ```
+7. contact.html 디자인,태그 내에 Bootstrap 클래스 적  [contact.html](./day77/contact.html)
+8. 테마 [index.html](./day77/index.html)
+    - jquery.js , popper.js 다운받아서 js폴더에 넣기
+    - https://code.jquery.com/jquery-3.7.1.min.js 
+    - https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js
+    - 테마 버튼 코드 및 js코드
+    ```html
+    <head>
+        <!--jquery js-->
+        <script src="./js/jquery-3.7.1.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                //테마작업
+                $('#btnLight').addClass('active')  ;//기본 테마는 라이트
+                $('#blog_section').css({
+                    'background-color' : 'rgba(240,240,240,0.2)'
+                })  ;
+
+
+                $('#btnLight').on('click', function(){
+                    $('html').attr('data-bs-theme', 'light');
+                    $('#btnDark').removeClass('active');
+                    $('#btnLight').addClass('active');
+                    $('#iconTheme').attr('class','bi bi-brightness-high-fill');
+                    $('#blog_section').css({
+                    'background-color' : 'rgba(240,240,240,0.2)'
+                    })  ;
+                });
+
+                $('#btnDark').click( function(){
+                    $('html').attr('data-bs-theme', 'dark');
+                    $('#btnLight').removeClass('active');
+                    $('#btnDark').addClass('active');
+                    $('#iconTheme').attr('class','bi bi-moon-stars-fill');
+                    $('#blog_section').css({
+                    'background-color' : 'rgba(66,66,66,0.5)'
+                    })  ;
+                });
+                
+            })
+        </script>
+    </head>
+    <body class="d-flex flex-column h-100">
+        <!-- 오른쪽아래 바닥 테마변경 아이콘영역 -->
+        <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle theme-menu">
+            <button class="btn btn-primary py-2 dropdown-toggle d-flex align-items-center" 
+                    data-bs-toggle="dropdown" id="bd-theme" type="button">
+                <i id="iconTheme" class="bi bi-brightness-high-fill"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <button id="btnLight" type="button" class="dropdown-item d-flex align-items-center"
+                            data-bs-theme-value="light" aria-pressed="true">
+                        <i class="bi bi-brightness-high-fill"></i>&nbsp;Light
+                    </button>
+                </li>
+                <li>
+                    <button id="btnDark" type="button" class="dropdown-item d-flex align-items-center"
+                            data-bs-theme-value="dark" aria-pressed="false">
+                        <i class="bi bi-moon-stars-fill"></i>&nbsp;Dark
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!--popper js-->
+        <script src="./js/popper.min.js"></script>
+
+        <!--js-->
+        <script src="./js/bootstrap.min.js"></script>
+    </body>
+    ```
+## 78일차(5/28)
+
+
+### ASP.NET Core
