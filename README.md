@@ -645,6 +645,188 @@ https://github.com/user-attachments/assets/68193364-7c84-403f-987c-f0c1c625ff52
 
 
 ## 78일차(5/28)
-
-
+### 웹개발 기술 용어
+- SPA : Single Page Application. 페이지를 이동해도 새로고침 없이 한페이지에서 작동하는 웹
+- MPA : Multi Page Application. 전통적인 여러페이지로 작동하는 웹
+- CSR : Client-Side-Rendering. 대부분 SPA가 동작하는 방식. 랜더링을 브라우저에서 처리
+- SSR : Server-Side-Rendering. NPA위주. HTML을 서버에서 생성 후 전달(naver.google 등 포털)
 ### ASP.NET Core
+- 흐름 요약
+    - ASP는 웹 개발 기술, IIS는 그걸 실행시키는 서버 환경
+    - IIS는 웹 서버 소프트웨어로서 예전부터 존재.
+    - ASP (Classic ASP)는 IIS 위에서 동작하던 웹 기술.
+    - 시간이 지나면서 Java, JSP 등 경쟁 기술의 등장으로 위협받음.
+    - Microsoft가 대응하여 .NET Framework + ASP.NET을 출시.
+    - 이후 성능, 구조, 호환성 등을 개선한 ASP.NET Core로 진화.
+
+- ASP : Active Server Page. Classic ASP 라고 부름.동적인 웹페이지를 만드는 기술
+- 프론트엔드 상에서 동작하는 기술을 동적 웹페이지라고 부르지 않음
+- 즉, 동적 웹페이지라는 말은 주로 서버가 요청에 따라 HTML을 다르게 만들어주는 경우를 말하며,
+단순히 JavaScript가 DOM을 바꾸는 건 포함하지 않는다는 의미입니다.
+- 동적 웹페이지 : 사용자가 웹서버에 요청을 해서 값이 변경되는 것
+    - 127.0.0.1:5500/day77/index.html - 웹 서버를 통해 브라우저에서 접근한 주소, VS Code의 Live Server 확장 기능
+    - C:/source/iot-webapp/day77/index.html -파일 시스템 상의 절대 경로, 로컬 파일을 직접 엽니다.
+    - <img src='./day78/로컬파일열기.png'>
+    - <img src='./day78/웹서버형식.png'>
+
+- IIS : Internaet Information Service. MS가 윈도우 운영체제에 포함시킨 웹 서버기술  
+    - 윈도우 프로그램 추가 제거(appwiz.cpl)
+    - 윈도우 기능켜기/끄기
+    - 인터넷 정보 서비스 체크
+    - 제어판 - window tools - IIS (인터넷 정보 서비스) 관리자 
+    - <img src='./day78/IIS.png' width=300>
+
+- Java가 1995년 출현하면서 Classic ASP, Classic VB 등의 옛날 MS 기술이 위협
+- 2000년대 초반에 .NET 프레임워크를 출시
+    - C#, VB(.NET) 새로운 언어들이 포함됨
+    - 위의 언어들로 개발할 수 있는 웹 기술인 ASP.NET 등장
+    - 이후 언어는 계속 발전
+    - 2016년에 크로스플랫폼 ASP.NET Core
+    - 2020년에 .NET Framework(Window전용)을 .NET 5.0(크로스플랫폼)로 변경
+
+#### ASP.NET Core 장점
+- 빠르다 : 초창기 ASP.NET 은 C#으로 Winforms 만드는 것처럼 개발(개발생산성은 좋지만 랜더링 속도가 무지하게 느렸음.) . MVC모델로 분리하면서 원폼식 개발을 제거
+- 오픈소스 : Java JSP/Spring, Python Flask 등이 오픈소스로 발전하니까 MS도 오픈소스로 전향
+- 크로스플랫폼 : Windows에서만 동작하던 걸, MacOS, Linux 등으로 확대시킴
+- 종속성 주입 : Dependency Injection. Spring쪽에 특화되던 기술을 접목해옴. 개발시간 절약
+- 개발용 서버 : IIS가 Visual Studio에 포함. 웹서버 설정을 할 필요가 없음
+- 클라우드 친화적 : MS Azure 등의 클라우드와 연계 쉬움
+- MVC모델 : Model View Controller를 따로 개발. Spring Boot도 동일
+- 최적화가 잘 되어 있음
+
+- <img src='./day78/asp.net발전.png'>
+- <img src='./day78/asp.net과 springboot.png' width=500>
+
+#### ASP.NET Core 활용처
+- 웹 사이트 개발 : 기본적인 내용 및 풀스택
+- API 서버 개발 : TMDB 영화 데이터 조회 API, Youtube API, 데이터포털 API 등의 데이터만 주고받는 서비스 개발
+- 풀스택 개발 : 프론트엔드(React , Vue, Angular js) + 백엔드(ASP.NET Core)
+- 도메인특화 솔루션 개발 : MES, ERP, SmartFactory, SmartShip 등
+- 이커머스 개발 : 쇼핑몰, 온라인 서점, 여행예매 사이트 등
+ 
+#### ASP.NET Core 시작 [ASP.NET Core 시작](./day78/Day05Study/WebApp1/)
+1. Visual Studio 시작 > 새프로젝트 만들기
+2. **ASP.NET Core 웹앱(Model-View-Controller)** 선택
+3. 프로젝트 이름, 위치, 솔루션 이름 입력 , 최상위문 사용 안함만 체크하기
+4. 추가정보
+    - HTTPS : 보안 인증서를 신청 및 다운로드 설정까지 해야 함
+5. 빌드 후 실행
+6. properties - launchSetting.json 에서 자신의 포트번호 확인
+    ```
+    "profiles": {
+    "http": {
+        "applicationUrl": "http://localhost:5052",
+    }}
+    ```
+7. 기본 ASP.NET Core 웹앱에 포함된 프론트엔드 라이브러리
+    - Bootstrap 5.1.0
+    - jQuery 3.6.0
+    - 최신버전으로 변경하고 싶으면 다운로드 받아서 C:\Source\iot_webapp_2025\day78\Day05Study\WebApp01\wwwroot\lib\bootstrap\dist의 js, css폴더에 구성하면 됨. (https://getbootstrap.com/docs/5.3/getting-started/download/ 에서 컴파일된 CSS 및 JS 다운로드 (bootstrap-5.3.6-dist))
+8. head 아이콘 변경
+    - wwwroot 폴더에 favicon.ico 덮어쓰기 
+    - favicon.ico 항상복사 및 솔루션 빌드
+    - _layout.cshtml에 코드 작성
+    ```html
+     <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    ```
+    - 웹사이트에서 ctrl f5로 누르고 실행
+#### ASP.NET Core 프로젝트 구조 [기본구조](./day78/Day05Study/WebApp1/)
+- properties > launchSetting.json  - 웹서버 실행설정
+- wwwroot - 정적리소스
+    - css > site.css - 웹페이지 추가적인 css
+    - js  > site.js   - 웹페이지 추가적인 js
+    - lib > bootstrap, jQuery 등의 라이브러리 포함된 폴더
+    - favicon.ico
+- 종속성 : .NET 관련 Nuget 패키지 라이브러리(종속성)
+- Controller : MVC 패턴 중 Controller 관리
+    - HomeController : Controller postfix는 제거하고 호출. Views에 postfix를 제거한 폴더 존재
+    - 메서드 : 메서드 이름과 동일한 cshtml 존재
+    - 비즈니스 로직이 포함
+    - <img src='./day78/controller.png' width=500>
+- Models : MVC 중 Model
+    - 데이터, DB관련된 소스 포함
+- Views : MVC 중 View  역할
+    - Controller에 포함된 클래스와 동일한 이름의 폴더, cshtml이 존재
+    - cshtml : HTML + ASP.NET 기술이 포함된 웹페이지  
+        - @ , asp-append-version, asp-controller, asp-action 등의 속성
+    - _layout.cshtml : 전체 HTML 틀 구성 , @RenderBody()(레이아웃 파일(_Layout.cshtml) 내에서 자식 뷰(View)의 내용이 삽입될 자리를 지정하는 곳입니다.)
+    - 웹사이트는 중간 content 이외는 모양이 항상 동일
+    - cshtml 중 _로 시작하는 파일은 여러번 공유하겠다는 뜻
+     - <img src='./day78/layoutcshtml.png' width=500>
+- appsettings.json : 로그 등 애플리케이션 설정
+- Program.cs : C# 프로그램 시작점. 실제 웹앱이 시작될 때 필요한 초기화 담당
+- 중요소스
+    ```csharp
+    app.UseStaticFiles(); //정적인 HTML, CSS, JS를 사용하겠다.
+    app.UseRouting(); //라우팅으로 URL을 사용하겠다.
+    app.UseAuthorization(); //권한 설정을 사용하겠다.
+
+    // http://localhost:포트번호/Home/Index/2와 같이 url을 사용하겠다.
+    //id?: 선택적인 파라미터입니다. ?가 붙었기 때문에 있어도 되고 없어도 됩니다.
+   //controller의 Home, Index함수는 디폴트기에  http://localhost:포트번호/Home/Index 랑 http://localhost:포트번호랑 같다.
+   // program.cs에서 중요한 파트
+    
+    app.MapControllerRoute(name:"default", pattern : "{controller=Home}/{action=Index}/{id?}");
+    ```
+#### ASP.NET Core 페이지 생성법
+1. 기존 Controller가 존재할 때 [기존 Controller](./day78/Day05Study/WebApp1/Controllers/HomeController.cs)
+    - _Layout.cshtml에 asp-controller, asp-action 속성 추가
+    - Controller에 asp=action의 속성값과 동일한 메서드 추가
+    - Views 폴더에 같은 이름의 cshtml을 생성(Razor뷰-비어있음), 작성
+    - 아이콘
+        - lib-bootstrap-icon폴더 생성 - fonts, bootstrap-icon.css
+        - _Layout.cshtml에 bootstrap-icon.css 선언
+
+2. Controller가 없을 때(1) [MVC Controller 비어있음](./day78/Day05Study/WebApp1/Controllers/SideController.cs)
+    - Controllers 폴더에서 컨트롤러 생성 - MVC Controller 비어있음 선택 - 클래스명이 SideController 클래스 생성
+    -  SideController 클래스의 Index() 메서드에서 오른쪽 버튼- 뷰 추가 선택 - Razor뷰 비어있음 추가 - Index.cshtml 추가 및 작성
+    - <img srd='./day78/sidecontroller의index뷰.png'>
+3. Controller가 없을 때(2) [읽기/쓰기 동작이 포함된 컨트롤러](./day78/Day05Study/WebApp1/Controllers/BoardController.cs)
+    - EntityFramework 사용하여 뷰가 포함된 MVC 컨트롤러 또는 읽기/쓰기 동작이 포함된 컨트롤러 중 선택
+    - 읽기/쓰기 동작이 포함된 컨트롤러 - 클래스명 BoardController으로 controller 클래스 생성
+    - 메서드 Index()부터 Delete()까지 총 8개 메서드 생성
+    - Models 폴더에 Board.cs 만들어 추가
+    - 인덱스 마다 Razor뷰 추가 (비어있음 아님)
+        - 템플릿 : Create, Delete, Details, List, Edit(DB의 CRUD와 매핑)
+        - 모델 클래스 : MVC, MVVM에서 Model클래스가 포함되어야 함(DB 설정이 필요)
+        - Index.cshtml 생성
+            - <img src='./day78/razor뷰추가.png' width=500>
+        - _Layout.cshtml의 nav에 Index.cshtml 추가
+            - <img src='./day78/sidecontroller의index뷰.png' width=500>
+#### ASP.NET Core MVC
+- <img src='./day78/mvc.png' width=500>
+- 현재 기본적인 웹개발의 표준. Java도 SpringBoot MVC
+- 프론트엔드가 심각한 스파게티 코드였으면 현재는 최소화하고 있음
+- Razor 구문 : @로 시작하는 C# 문법에 대한 이해
+
+- DB연동 방법
+    - 전통적인 방법 : WPF나 윈앱에서 연동방법. SQL쿼리문을 직접 작성. 실행
+    - 현대적인 방법 : EntityFramework 방식. 쿼리를 사용하지 않음
+        - DB First : DB를 설계해놓고, 연결, 사용하는 방식
+        - Code First : 모델 클래스만 만들어 놓고, EF가 DB에 테이블을 자동 생성
+
+#####  MVVM과 MVC 패턴의 구조 차이
+- <img src='./day78/MVC개념.png' width=500>
+- <img src='./day78/MVVM개념.png' width=500>
+
+
+#### ASP.NET Core MVC -Personal Portpolio site [ Kelly-Personal Portpolio ](./day78/Day05Study/MyPortfolioWebApp/Views/Shared/_Layout.cshtml)
+1. Kelly-1.0.0.zip 다운로드
+    - <img src='./day78/kelly샘플.png' width=500>
+2. 정적파일 분석
+3. 최신버전 css, js 를 bootstrap, 그리고 icon.css를 bootstrap-icon폴더에 넣기
+4. wwwroot에 favicon.ico 덮어쓰고 항상복사 후 ctrl f5 누르고 실행해서 head 아이콘 변경
+5. Kelly-1.0.0에서 vendor폴더 복사해서 wwwroot에 넣기 , vendor 내 bootstrap, bootstarp-icon폴더는 삭제
+6. head
+    - 구글폰트 https://fonts.google.com/selection/embed
+    - css 
+    - vendor css
+7. body
+    - Kelly-1.0.0의  body 내용으로 붙여넣기
+    - js
+    - vendor js
+7. css-site.css를 Kelly-1.0.0의 main.css내용으로 붙여넣기
+    - fonts, body, header , navmenu, footer , preloader, scroll-top
+- <img src='./day78/디자인연습1.png' width=500>
+
+## 79일차(5/29)
