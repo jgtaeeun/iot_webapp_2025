@@ -934,6 +934,12 @@ https://github.com/user-attachments/assets/68193364-7c84-403f-987c-f0c1c625ff52
         - SELECT는 GET메서드만 존재
         - 데이터가 처리되는 INSERT, UPDATE, DELETE 기능에느 GET, POST 메러드 둘 다 필요
         - FORM태그의 asp-action이 POST메서드
+- 실행결과
+
+
+https://github.com/user-attachments/assets/294b5cd4-a7a6-4481-a6b4-8360bdee63dc
+
+
 ## 80일차 (5/30)
 #### ASP.NET Core MVC - Personal Portfolio site 
 15. 
