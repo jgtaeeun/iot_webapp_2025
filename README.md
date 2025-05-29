@@ -830,3 +830,114 @@ https://github.com/user-attachments/assets/68193364-7c84-403f-987c-f0c1c625ff52
 - <img src='./day78/디자인연습1.png' width=500>
 
 ## 79일차(5/29)
+#### ASP.NET Core MVC -Personal Portpolio site [ Kelly-Personal Portpolio ](./day79/Day06Study/MyPortfolioWebApp/Views/Shared/_Layout.cshtml)
+8. js-site.js를 Kelly-1.0.0의 main.js내용으로 붙여넣기 / cs-site.css를 Kelly-1.0.0의 main.css내용으로 붙여넣기 
+9. _Layout.cshtml
+    - kelly-1.0.0의 폰트 코드 3줄 그대로 작성
+    - ASP.NET Core에서 생성한 <link rel="stylesheet" href="~/MyPortfolioWebApp.styles.css" asp-append-version="true" />  주석처리
+    - navmenu부분에 a태그들의 링크부분 수정  
+        ```html
+        <li><a class="active" asp-controller="Home" asp-action="Index">Home</a></li>
+        ```
+10. 원본 이미지 등 정적리소스를 변경시 반영안되는 경우
+    - ctrl f5
+    - 웹브라우저에 캐시가 남아있기 때문
+    - 웹브라우저 설정 > 개인정보 보호 및 보안 > 인터넷 사용기록 및 삭제 > 전체삭제
+    - 웹브라우저가 없는 리소스는 재다운로드
+11. About.cshtml
+    - HomeController에서 About함수 생성
+    - About.cshtml 생성
+    - Kelly-1.0.0의 About.cshtml 코드 복사해서 붙여넣기
+    - a태그들의 링크부분 수정  
+        ```html
+        <li><a  asp-controller="Home" asp-action="Index">Home</a></li>
+        ```
+    - img태그, a태그의 src를 ~로 수정
+        ```html
+        <img src="~/img/profile-img.jpg" class="img-fluid" alt="">
+        ```
+12. ResumeController.cs 만들고 Index.cshtml, Service.cshtml, portfolio.cshtml, portfolio_detail.cshtml  작성
+    - ResumeController.cs  생성(mvc  컨트롤러 있음)
+    - ResumeController에서 Index,Service,portfolio,portfolio_detail.cshtml  함수생성
+    - Kelly-1.0.0의 Resume, Service, portfolio,portfolio_detail.cshtml  코드 복사해서 붙여넣기
+    - img태그, a태그의 src를 ~로 수정
+    - a태그들의 링크부분 수정  
+13. Contact.cshtml
+    - HomeController에서 contact 함수생성
+    - Contact.cshtml  뷰 생성
+    - Kelly-1.0.0의 Contact.cshtml 코드 복사해서 붙여넣기
+    - 구글지도에서 장소검색에서 이곳공유-지도로퍼가기-HTML 복사- src만 따로 잘라내기
+    - Kelly-1.0.0의 Contact.cshtml 코드의 iframe태그에 잘라낸 src만 붙이기
+    - 폼 전송완료 메시지 부분 hidden 처리
+    ```html
+    <div class="loading" hidden>Loading</div>
+    ```
+
+14. DB 연동 - EntityFrameworkCore First 방식
+    1. Nuget 패키지 설치 
+        - Bogus(가짜데이터 만드는 모듈)
+        - Microsoft.EntityFrameworkCore  8.0.x버전
+        - Microsoft.EntityFrameworkCore.Tools 8.0.x버전
+        - Pomelo.EntityFrameworkCore.Mysql 8.0버전
+        - `EntityFrameworkCore,EntityFrameworkCore.Tools,EntityFrameworkCore.Mysql 는 전부 version major 숫자가 일치해야함.`
+
+    2. Models > News.cs 클래스 생성
+    3. appsettings.json 에 db연결문자열 추가
+        ```json
+        "ConnectionStrings": {
+            "smartHomeConnection" : "Server=localhost;Database=smarthome;Uid=root;Pwd=12345;Charset=utf8;"
+        }
+        ```
+    4. Models > applicationDbContext.cs 생성
+        ```cs
+        public class ApplicationDBContext : DbContext
+        {
+            public ApplicationDBContext(DbContextOptions options) : base(options)
+            {
+            }
+
+            protected ApplicationDBContext()
+            {
+            }
+
+            //DB와 연동할 모델폴더 내 클래스 선언
+            public DbSet<News> news { get; set; }
+            
+        }
+        ```
+    5. Program.cs에서 초기화 설정에 db연결 추가
+        ```cs
+        //db연결 초기화
+        builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseMySql(
+                builder.Configuration.GetConnectionString("smartHomeConnection"),
+                ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("smartHomeConnection"))
+            ));
+        ```
+    6. 도구 > Nuget패키지관리자 > 패키지 관리자 콘솔 
+        ```shell
+        PM>add-migration AddNewsToDatabase
+
+        PM>update-database
+        ```
+        - Unable to create a 'DbContext' of type 'RuntimeType'. The exception 'Method 'get_LockReleaseBehavior' in type 'Pomelo.EntityFrameworkCore.MySql.Migrations. 이러한 에러가 나면 EntityFrameworkCore,EntityFrameworkCore.Tools,EntityFrameworkCore.Mysql 는 전부 version major 숫자가 일치하는지 확인할 것.
+        - <img src='./day79/db생성.png' width=500>
+    7. 컨트롤러 추가- entity framework를 사용하며 뷰가 포함된 mvc 컨트롤러
+        - <img src='./day79/newscontroller.png' width=500>
+        - 컨트롤러, 뷰 생성 잘 되었는지 확인
+        - _Layout.cshtml의 navitem이 Board 하위 태그에 a태그 링크 수정
+            ```html
+            <li><a asp-controller="News" asp-action="Index">News</a></li>
+            ```
+    8. **entityframework로만든 Controller의 CRUD작업**
+        - <img src='./day79/entityframework로만든db로연결.png' width=500>
+        - <img src='./day79/db데이터가져오는과정.png' width=500>
+        - SELECT는 GET메서드만 존재
+        - 데이터가 처리되는 INSERT, UPDATE, DELETE 기능에느 GET, POST 메러드 둘 다 필요
+        - FORM태그의 asp-action이 POST메서드
+## 80일차 (5/30)
+#### ASP.NET Core MVC - Personal Portfolio site 
+15. 
+    - 네비에 선택된 navitem을 active활성화
+    - contact뷰의 form send
+    - 한글화
+    - news , board 뷰 디자인 및 기능

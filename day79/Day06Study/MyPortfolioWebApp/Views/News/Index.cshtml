@@ -1,0 +1,72 @@
+﻿@model IEnumerable<MyPortfolioWebApp.Models.News>
+
+@{
+    ViewData["Title"] = "News Page";
+}
+
+
+
+<!-- Contact Section -->
+<section id="contact" class="contact section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>News</h2>
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    </div>
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Writer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PostdDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReadCount)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Writer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostdDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReadCount)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+ </div>
+</section><!-- /Contact Section -->
