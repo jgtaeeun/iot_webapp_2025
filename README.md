@@ -1057,6 +1057,12 @@ https://github.com/user-attachments/assets/294b5cd4-a7a6-4481-a6b4-8360bdee63dc
         Home
     </a>
     ```
+- 실행
+  
+
+https://github.com/user-attachments/assets/dc25007b-dc5d-4069-b081-ee8860750c34
+
+
 ## 81일차(6/2)
 #### ASP.NET Core MVC - Personal Portfolio site 
 - 해야할 것
