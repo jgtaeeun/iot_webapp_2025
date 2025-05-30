@@ -1,0 +1,78 @@
+﻿@model IEnumerable<MyPortfolioWebApp.Models.News>
+
+@{
+    ViewData["Title"] = "News Page";
+}
+
+
+
+<!-- Contact Section -->
+<section id="contact" class="contact section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+         <h2>News</h2>
+         <p> 
+            <a asp-action="Create" asp-controller="News"
+               class="btn  btn-success " style="background-color: #34b7a7; color: #ffffff; 
+                border: 0; border-radius: 50px; padding: 0.4rem 1rem; font-size: 0.95rem;">Create New</a>
+           
+        </p> 
+     
+    </div>
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Writer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                @* <th> *@
+                @*     @Html.DisplayNameFor(model => model.Description) *@
+                @* </th> *@
+                <th>
+                    @Html.DisplayNameFor(model => model.PostdDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReadCount)
+                </th>
+               
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Writer)
+                </td>
+                <td>
+                      <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
+                </td>
+                @* <td> *@
+                @*     @Html.DisplayFor(modelItem => item.Description) *@
+                @* </td> *@
+                <td>
+                       @Html.DisplayFor(modelItem => item.PostdDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReadCount)
+                </td>
+               
+            </tr>
+    }
+        </tbody>
+    </table>
+ </div>
+</section><!-- /Contact Section -->

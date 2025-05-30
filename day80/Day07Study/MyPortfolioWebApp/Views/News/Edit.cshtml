@@ -1,0 +1,63 @@
+﻿@model MyPortfolioWebApp.Models.News
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<section id="contact" class="contact section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Edit</h2>
+    </div>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+
+        <div class="row" style="display: flex; justify-content: center;">
+            <div class="col-md-4" style="display: flex; justify-content: center;">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Writer" class="control-label"></label>
+                        <input asp-for="Writer" class="form-control" />
+                        <span asp-validation-for="Writer" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PostdDate" class="control-label"></label>
+                        <input asp-for="PostdDate" class="form-control" />
+                        <span asp-validation-for="PostdDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ReadCount" class="control-label"></label>
+                        <input asp-for="ReadCount" class="form-control" />
+                        <span asp-validation-for="ReadCount" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group" style="display: flex; justify-content: space-between">
+
+                        <input type="submit" value="Edit" class="btn btn-sm btn-success " style="background-color: #34b7a7; color: #ffffff;
+                               border: 0; border-radius: 50px;" />
+                        <a asp-action="Index" class="btn btn-sm btn-success " style="background-color: #34b7a7; color: #ffffff;
+                               border: 0; border-radius: 50px;">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

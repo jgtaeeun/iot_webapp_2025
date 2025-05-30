@@ -941,9 +941,124 @@ https://github.com/user-attachments/assets/294b5cd4-a7a6-4481-a6b4-8360bdee63dc
 
 
 ## 80일차 (5/30)
+### ASP.NET Core
+#### EntityFramework DB First
+- DB를 먼저 설계하고 관련된 C#코드를 위저드가 자동으로 만들어 주는 방식
+- EntityFramework DB연동 방식 : ORM(Object-Relational Mapping) 방식
+    - 제일 최근의 DB연동법
+    - SpringBoot JPA , myBatix과 동일
+    - EntityFramework - WPF, 윈앱, 웹앱
+#### DB 연동 - EntityFrameworkCore First 다른 방식 [EntityFramework DB First](./day80/Day07Study/DbFirstWebApp)
+1. 프로젝트 생성
+2. nuget패키지 관리자 
+    - MySql.EntityFrameworkCore 8.0.14버전
+    - Microsoft.EntityFrameworkCore  8.0.16 버전 
+    - Microsoft.EntityFrameworkCore.Tools 8.0.16버전
+    - Pomelo.EntityFrameworkCore.Mysql 8.0.3 버전
+3. appsettings.json 에 db연결문자열 추가
+    ```json
+    "ConnectionStrings": {
+        "smartHomeConnection" : "Server=localhost;Database=madang;Uid=root;Pwd=12345;Charset=utf8;"
+    }
+    ```
+4. 도구 > Nuget패키지관리자 > 패키지 관리자 콘솔 > 기본프로젝트 선택 
+    - <img src='./day80/efdbfirst패키지관리자콘솔기본프로젝트설정.png' width=500>
+    ```shell
+    PM> dir
+        디렉터리: C:\Source\iot_webapp_2025\day80\Day07Study
+
+    PM> cd .\DbFirstWebApp
+    PM> dir
+        디렉터리: C:\Source\iot_webapp_2025\day80\Day07Study\DbFirstWebApp
+
+
+    PM> Scaffold-DbContext "Server=localhost;Database=madang;Uid=root;Pwd=12345;Charset=utf8;" MySql.EntityFrameworkCore -OutputDir Models
+    Build started...
+    Build succeeded.
+    To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+
+    ```
+5. Models폴더 내에 생성된 클래스 확인 
+    - MadangContext.cs
+    - ErrorViewModel.cs
+    - Bookstbl.cs
+    - Divtbl.cs
+    - Membertbl.cs
+    - Rentaltbl.cs
+    - <img src='./day80/er다이어그램.png' width=500>
+    ```cs
+    public partial class Divtbl
+    {
+        // 부모 Divtbl 자식 Bookstbl
+        public virtual ICollection<Bookstbl> Bookstbls { get; set; } = new List<Bookstbl>();
+    }
+
+
+    public partial class Bookstbl
+    {
+        //부모 Divtbl - 자식 Booktbl
+        public virtual Divtbl DivisionNavigation { get; set; } = null!;
+
+        //부모 Booktbl- 자식 Rentaltbl
+        public virtual ICollection<Rentaltbl> Rentaltbls { get; set; } = new List<Rentaltbl>();
+    }
+
+    public partial class Rentaltbl
+    {
+        //부모 Booktbl- 자식 Rentaltbl
+        public virtual Bookstbl BookIdxNavigation { get; set; } = null!;
+    }
+    ```
+6. Program.cs  db연결 초기화
+    ```cs
+    using DbFirstWebApp.Models;
+    using Microsoft.EntityFrameworkCore;
+
+    //db연결 초기화
+    builder.Services.AddDbContext<MadangContext>(options => options.UseMySql(
+            builder.Configuration.GetConnectionString("smartHomeConnection"),
+            ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("smartHomeConnection"))
+        ));
+    ```
+7. BookController, MemberController, DivController, RentalController 생성
+    - 컨트롤러 추가- entity framework를 사용하며 뷰가 포함된 mvc 컨트롤러
+    ```
+    DbFirstWebApp
+    ├── Controllers
+    │   ├── BookController 
+    │   ├── MemberController
+    │   ├── DivController
+    │   └── RentalController
+    └── Views
+        ├── Book    - Create,   Delete, Details, Edit, Index
+        ├── Member  - Create,   Delete, Details, Edit, Index
+        ├── Div     - Create,   Delete, Details, Edit, Index
+        └── Rental  - Create,   Delete, Details, Edit, Index
+    ```
+8. Models > MadangContext.cs에서 OnConfiguring() 메서드 주석처리
+9. _Layout.cshtml에서 nav item 설정 , 뷰의 디자인 수정(a태그의 속성 class=btn 설정)
+10. CRUD 실행
+    - Div, Member은 CRUD 다 가능
+    - Book, Rental은 CREATE, Edit 실행안됨 ->코드수정필요
+    - <img src='./day80/efdbfirst로 mysql데이터불러오기.png' width=500>
+
+#### ASP.NET Core MVC - Personal Portfolio site [Kelly-Personal Portpolio](./day80/Day07Study/MyPortfolioWebApp)
+15. news폴더의 뷰 디자인 및 기능 
+    - News.cs모델에서  [DisplayName("번호")]설정하여 화면에 한글화
+    - News.cs모델에서   [DisplayFormat()]설정하여 화면에 날짜형식 지정
+    - News폴더의 create, delete, details, edit, index뷰 디자인
+    - News폴더의 edit뷰에서 날짜는 불러와지지 않음 =>  [DisplayFormat(DataFormatString ="{0:yyyy년 MM월 dd일}", ApplyFormatInEditMode = false)] 로 해결
+
+16. 네비에 선택된 navitem을 active활성화
+    - Razor에서 현재 URL 정보를 확인 + active 클래스 조건부 추가
+    ```cs
+    <a asp-controller="Home" asp-action="Index"
+        class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">
+        Home
+    </a>
+    ```
+## 81일차(6/2)
 #### ASP.NET Core MVC - Personal Portfolio site 
-15. 
-    - 네비에 선택된 navitem을 active활성화
+- 해야할 것
     - contact뷰의 form send
-    - 한글화
-    - news , board 뷰 디자인 및 기능
+    - board 뷰 디자인 및 기능
