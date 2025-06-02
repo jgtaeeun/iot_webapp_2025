@@ -1106,22 +1106,22 @@ https://github.com/user-attachments/assets/dc25007b-dc5d-4069-b081-ee8860750c34
         - //cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js [_Notification.cshtml](./day81/Day08Study/MyPortfolioWebApp/Views/Shared/_Notification.cshtml)
         - Toast 디자인 - https://codeseven.github.io/toastr/demo.html
             ```cs
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <!--토스트-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <!--토스트-->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-        @if (TempData["success"] != null)
-        {
-            <script>
-                    toastr.options = {
-                        "closeButton" :true,
-                        "progressBar" :true,
-                        "positionClass" : "toast-bottom-right",
-                        "showDuration" : 200
-                    }
-                    toastr.info('TempData["success"]');
-            </script>
-        }
+            @if (TempData["success"] != null)
+            {
+                <script>
+                        toastr.options = {
+                            "closeButton" :true,
+                            "progressBar" :true,
+                            "positionClass" : "toast-bottom-right",
+                            "showDuration" : 200
+                        }
+                        toastr.info('TempData["success"]');
+                </script>
+            }
             ```
 4. HTML 에디터 추가
     - 본문 내용을 HTML화 해서 괜찮은 디자인의 컨텐츠가 되도록 만드는 컴포넌트
