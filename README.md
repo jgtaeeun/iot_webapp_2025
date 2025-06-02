@@ -932,7 +932,7 @@ https://github.com/user-attachments/assets/68193364-7c84-403f-987c-f0c1c625ff52
         - <img src='./day79/entityframework로만든db로연결.png' width=500>
         - <img src='./day79/db데이터가져오는과정.png' width=500>
         - SELECT는 GET메서드만 존재
-        - 데이터가 처리되는 INSERT, UPDATE, DELETE 기능에느 GET, POST 메러드 둘 다 필요
+        - 데이터가 처리되는 INSERT, UPDATE, DELETE 기능에느 GET, POST 메서드 둘 다 필요
         - FORM태그의 asp-action이 POST메서드
 - 실행결과
 
@@ -1065,6 +1065,132 @@ https://github.com/user-attachments/assets/dc25007b-dc5d-4069-b081-ee8860750c34
 
 ## 81일차(6/2)
 #### ASP.NET Core MVC - Personal Portfolio site 
+1. News nav의 News 뷰 디자인
+    - 사용자정의 board-table css디자인   [board-table](./day81/Day08Study/MyPortfolioWebApp/wwwroot/css/site.css)
+        - 제목줄 스타일, 행별 배경색, hover시 배경색변경
+    - Create 뷰 , Edit뷰 , Delete 뷰
+        - 모델 수정 [Required, BindNever](./day81/Day08Study/MyPortfolioWebApp/Models/News.cs)
+            - Validation Check 에러나는 타입은 string밖에 없음 
+            - public string Writer -> public string? Writer로 변경
+            - 입력검증을 위한 코드 - Create.cshtml, Edit.cshtml
+            ```cs
+            <!--입력검증 스크립트 포함-->
+            @section Scripts {
+                @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+            }
+           ```
+        - 폼 디자인 수정  [폼입력값 title, description](./day81/Day08Study/MyPortfolioWebApp/Views/News/Create.cshtml)
+            - 필요없는 입력값(Writer, Postdate, ReadCnt) 필드 삭제
+        - 폼 Create, Edit ,Delete 기능 [NewsController](./day81/Day08Study/MyPortfolioWebApp/Controllers/NewsController.cs)
+            - get, post 메서드방식이 다르기에 , id랑 news객체가 null이 아니고 유효한지 확인하는 코드 각각 필요   
+2. News nav의 News 뷰 세부기능
+    - 게시글 조회수 올리기 [details함수내에 로직처리](./day81/Day08Study/MyPortfolioWebApp/Controllers/NewsController.cs) 
+    - 정렬기준 최신글  [ Index함수내에서 로직처리](./day81/Day08Study/MyPortfolioWebApp/Controllers/NewsController.cs) 
+
+3. 토스트 메시지 
+    - 컨트롤러에서 뷰에 보이고 싶은 데이터를 전달하는 변수
+    -  ViewData, ViewBag, TempData
+         ```cs
+        @if (TempData["success"] != null)
+        {
+            <h3 style="color:limegreen;">@TempData["success"]</h3>
+        }
+        ```
+    1. partial view 생성
+        - shared폴더-오른쪽마우스-추가-보기-rasor뷰 - 부분뷰로 만들기 체크 - _Notificaion으로 뷰이름 짓기
+        - _Notificaion.cshtml에 토스트 메시지 작성
+        - Index.cshtml에 <partial name="_Notification">추가
+        - <img src='./day81/razor뷰.png' width=500>
+    2.  Toast 클라이언트 라이브러리 사용 + _Notificaion.cshtml에 토스트 메시지 작성
+        - //cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css  [css](./day81/Day08Study/MyPortfolioWebApp/Views/Shared/_Layout.cshtml)
+        - //cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js [_Notification.cshtml](./day81/Day08Study/MyPortfolioWebApp/Views/Shared/_Notification.cshtml)
+        - Toast 디자인 - https://codeseven.github.io/toastr/demo.html
+            ```cs
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <!--토스트-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+        @if (TempData["success"] != null)
+        {
+            <script>
+                    toastr.options = {
+                        "closeButton" :true,
+                        "progressBar" :true,
+                        "positionClass" : "toast-bottom-right",
+                        "showDuration" : 200
+                    }
+                    toastr.info('TempData["success"]');
+            </script>
+        }
+            ```
+4. HTML 에디터 추가
+    - 본문 내용을 HTML화 해서 괜찮은 디자인의 컨텐츠가 되도록 만드는 컴포넌트
+    - 유사한 라이브러리 : Trumbowyg , TinyMCE, CKEditor 5(기능 최대) , Quill(단순), summernote
+
+    - TrumBowyg 라이브러리 설치 
+        - wwwroot- 오른쪽마우스 - 추가 - 클라이언트쪽 라이브러리
+        - <img src='./day81/클라이언트라이브러리-trumbowyg.png' width=500>
+        - _Layout.cshtml에 trumBowyg css, js코드 추가 [TrumBowyg  css, js](./day81/Day08Study/MyPortfolioWebApp/Views/Shared/_Layout.cshtml)
+        - Create, Edit cshtml에 <input asp-for="Description"> -> <textarea>로 변경
+        - Site.js 마지막에 trumbowyg 초기화 함수 작성 또는  Create, Edit cshtml 마지막에 trumbowyg 초기화 함수 작성
+    - 뷰어 라이브러리 
+        - nuget패키지관리- Westwind.AspNetCore.Markdown
+        - Details, Delete cshtml의 Description부분 수정 [markdown using문, description부분](./day81/Day08Study/MyPortfolioWebApp/Views/News/Details.cshtml)
+5. 페이징
+    - 웹페이지 게시판에서 가장 중요한 기능. 가장 일반적인 데이터 로딩 방식
+    - 한 페이지에 대량의 데이터를 부르면 성능문제 발생
+    - EntitiyFramework에서 쿼리, 저장프로시저 사용가능
+    - mysql- 스키마-stored procedures - 오른쪽마우스 - created stored procedures 
+        ```sql
+        CREATE  PROCEDURE `New_PagingBoard`(
+        startCount int, 
+        endCount int
+        )
+        BEGIN
+            SELECT * 
+            FROM  (SELECT ROW_NUMBER() OVER (ORDER BY Id desc) as '순서',
+            Id, Writer, Title, Description, PostdDate, ReadCount
+                                                FROM news) as b
+            where (b.순서 between startCount and endCount);
+        END
+
+
+        call smarthome.New_PagingBoard(1,10);
+        call smarthome.New_PagingBoard(11,20);
+        ```
+    - NewsController Index()메서드 완전 수정!
+    - Index.cshtml에 Viewbag영역복사
+        ```cs
+        @{
+            var startPage = ViewBag.StartPage;
+            var endPage = ViewBag.EndPage;
+            var page = ViewBag.Page;
+            var totalPage = ViewBag.TotalPag;
+        }
+        ```
+    - Index.cshtml의 테이블 아래에 페이지번호 
+        ```cs
+        <div class="out">
+            <div class="in">
+                <div>
+                    @for(var pcount = startpage; pcount <=endPage; pcount++)
+                    {
+                        if (pcount == page)
+                        {
+                            <a href="?page=@pcount" class="btn active">@pcount</a>
+                        }
+                        else
+                        {
+                            <a href="?page=@pcount" class="btn ">@pcount</a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        ```
+
+
+## 82일차(6/4)
 - 해야할 것
     - contact뷰의 form send
     - board 뷰 디자인 및 기능
