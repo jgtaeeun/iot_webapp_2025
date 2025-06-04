@@ -1064,7 +1064,7 @@ https://github.com/user-attachments/assets/dc25007b-dc5d-4069-b081-ee8860750c34
 
 
 ## 81일차(6/2)
-#### ASP.NET Core MVC - Personal Portfolio site 
+#### ASP.NET Core MVC - Personal Portfolio site [Kelly-Personal Portpolio](./day81/Day08Study/MyPortfolioWebApp)
 1. News nav의 News 뷰 디자인
     - 사용자정의 board-table css디자인   [board-table](./day81/Day08Study/MyPortfolioWebApp/wwwroot/css/site.css)
         - 제목줄 스타일, 행별 배경색, hover시 배경색변경
@@ -1196,6 +1196,296 @@ https://github.com/user-attachments/assets/e93ef4c3-9fc6-4dca-be29-1a9c650c8e21
 
 
 ## 82일차(6/4)
+#### ASP.NET Core MVC - Personal Portfolio site  [Kelly-Personal Portpolio](./day82/Day09Study/MyPortfolioWebApp)
+0. CTE 
+    - [더미데이터 쿼리](./day82/더미데이터%20삽입%20코드.txt)
+    - INSERT INTO ... WITH RECURSIVE ... SELECT 는 한 덩어리로 연결된 하나의 쿼리
+    - <img src='./day82/CTE.png' width=500>
+1. 페이징 
+    - [페이지이동 탭-Index.cshtml코드](./day82/Day09Study/MyPortfolioWebApp/Views/News/Index.cshtml)
+    - sql에서 procedure수정 -최신글 정렬
+        ```sql
+        CREATE DEFINER=`root`@`%` PROCEDURE `New_PagingBoard`(
+            startCount int, 
+            endCount int
+        )
+        BEGIN
+            SELECT * 
+            FROM  (SELECT ROW_NUMBER() OVER (ORDER BY PostdDate desc) as '순서',
+            Id, Writer, Title, Description, PostdDate, ReadCount
+                                                FROM news) as b
+            where (b.순서 between startCount and endCount);
+        END
+        ```
+    - NewsController에 프로시저 적용
+        ```cs
+        public async Task<IActionResult> Index(int page = 1, string search = "")
+        {
+            
+            var totalCount = _context.news.Count();
+            var countList = 10;                                 //한페이지에 10개의 게시글 보여줌
+            var totalPage = totalCount / countList;             //전체 페이지수
+            if (totalCount % countList > 0) { totalPage++; }       //남은 게시글이 있으면 페이지수 증가
+            if (totalPage < page) page = totalPage;             
+        
+            //페이지번호 1~10
+            var countPage = 10;                                 //가장 max 페이지수 :10
+            var startPage = ((page - 1) / countPage) * countPage + 1;
+            var endPage = startPage + countPage - 1;
+            if (totalPage < endPage) endPage = totalPage;
+
+            //게시글 번호 1~10, 11~20
+            var startCount = ((page - 1) * countList) + 1;
+            var endCount = startCount + countList - 1;
+
+            ViewBag.StartPage = startPage;
+            ViewBag.EndPage = endPage;
+            ViewBag.Page = page;
+            ViewBag.TotalPage = totalPage;
+            ViewBag.Search = search;
+            //저장프로시저
+            var n = await _context.news.FromSql($@"call New_PagingBoard({startCount},{endCount})").ToListAsync();
+            return View(n);
+        }
+        ```
+    - <img src='./day82/페이지1.png'   width=500>
+    - <img src='./day82/마지막페이ㅣㅈ.png'   width=500>
+2. 검색 
+    - [검색창-Index.cshtml](./day82/Day09Study/MyPortfolioWebApp/Views/News/Index.cshtml)
+    - sql에서 procedure수정 -최신글 정렬
+        ```sql
+       CREATE DEFINER=`root`@`%` PROCEDURE `New_PagingBoard`(
+            startCount int, 
+            endCount int,
+            search varchar(50)
+        )
+        BEGIN
+            SELECT * 
+            FROM  (SELECT ROW_NUMBER() OVER (ORDER BY PostdDate desc) as '순서',
+            Id, Writer, Title, Description, PostdDate, ReadCount
+                                                FROM news
+                                                where Title like concat('%' , search, '%')) as b
+            where (b.순서 between startCount and endCount);
+        END
+        ```
+    - NewsController에 프로시저 적용
+        ```cs
+        public async Task<IActionResult> Index(int page = 1, string search = "")
+        {  var totalCount = _context.news.Where(n => EF.Functions.Like(n.Title, $"%{search}%")).Count();
+            //저장프로시저
+        var n = await _context.news.FromSql($@"call New_PagingBoard({startCount},{endCount},{search})").ToListAsync();
+        return View(n);
+        }      
+        ```
+    - 페이지이동때에도 검색 키워드 갖고 다녀야함 
+        - Index.cshtml 수정
+            ```cs
+            @{
+                var search = ViewBag.Search;
+            }
+
+            <div class="row mb-2" >
+                <form asp-action="Index" method="get">
+                <div class="input-group input-group-sm justify-content-end">
+                    <input type="text" id="search" name="search" class="form-control-sm" value="@ViewBag.Search" />
+                    <button type="submit" class="btn btn-success btn-kelly">검색</button>
+                    </div>
+                </form>
+            </div>
+            ```
+        - 이전,다음페이지에도 search 연결
+            ```cs
+            <div class="text-center mt-3">
+                <div class="in">
+                    <ul class="pagination justify-content-center">
+
+                        <!--페이지 이동의 도우미 역할-처음 페이지로 가는 링크-->
+                        @if (page >1)
+                        {
+                            <li class="page-item"><a href="?page=1&search=@search" class="page-link">《</a></li>
+                        }
+
+                        <!--페이지 이동의 도우미 역할-이전 페이지 링크-->
+                        @if (page > 1)
+                        {
+                            <li class="page-item"><a href="?page=@(page-1)&search=@search" class="page-link">〈</a></li>
+                        }
+                    
+                        <!--사용자가 직접 특정 페이지 숫자를 클릭해서 이동할 수 있게 합니다.-->
+                        @for(var pcount = startPage; pcount <=endPage; pcount++)
+                        {
+                            if (pcount == page)
+                            {
+                                <li class="page-item">
+                                    <a href="?page=@pcount&search=@search" class="page-link active">@pcount</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a href="?page=@pcount&search=@search" class="page-link">@pcount</a>
+                                </li>
+                            }
+                        }
+                        <!-- 페이지 이동의 도우미 역할-다음 페이지 링크-->
+                        @if (page < totalPage)
+                        {
+                            <li class="page-item"><a href="?page=@(page+1)&search=@search" class="page-link">〉</a></li>
+                        }
+                        <!--페이지 이동의 도우미 역할-마지막 페이지 링크-->
+                        @if (page != totalPage)
+                        {
+                            <li class="page-item"><a href="?page=@(totalPage)&search=@search" class="page-link">》</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            ```
+        - <img src='./day82/html, csharp 변수.png' width=500>
+        - <img src='./day82/검색1페이지.png' width=500>
+        - <img src='./day82/검색마지막페이지.png' width=500>
+3. 네비에 선택된 navitem을 active활성화
+- Razor에서 현재 URL 정보를 확인 + active 클래스 조건부 추가
+    ```cs
+    //네비게이션 메뉴 탭 선택한 것에 밑줄 뜨도록
+    @functions {
+        bool IsActive(string controller, string action)
+        {
+            var routeData = ViewContext.RouteData;
+            var currController = routeData.Values["controller"]?.ToString();
+            var currAction = routeData.Values["action"]?.ToString();
+
+            //현재 클릭한 메뉴와 뷰컨텍스트로 넘어온 메뉴값이 같을 경우, 
+            return string.Equals(controller, currController, StringComparison.OrdinalIgnoreCase) && string.Equals(action, currAction, StringComparison.OrdinalIgnoreCase);
+
+
+        }
+
+        string SetActive(string controller, string action)
+        {
+            return IsActive(controller, action) ? "active" : "";
+        }
+    }
+    ```
+    ```cs
+        <nav id="navmenu" class="navmenu">
+            <ul>
+                <li>
+                    <a asp-controller="Home" asp-action="Index"
+                    class="@SetActive("Home" , "Index")">
+                        Home
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    ```
+4. 한글화
+    - 각 페이지를 한글로 입력변경
+5. 정적페이지 DB연동 [HomeController](./day82/Day09Study/MyPortfolioWebApp/Controllers/HomeController.cs)  [About.cshtml](./day82/Day09Study/MyPortfolioWebApp/Views/Home/About.cshtml)
+    - About, Skill, AboutModel 모델생성 및 ApplicationDBContext에 DbSet 작성
+    - Program.cs, appsettings.json으로 db연결 작성
+    - `nuget패키지콘솔 - dd-migration AddNewsTable235, update-database ` 
+    - controller의 context
+        ```cs
+        public class HomeController : Controller
+        {
+
+            private readonly ApplicationDBContext _context;
+
+            public HomeController(ApplicationDBContext context)
+            {
+                _context = context;
+            }
+        }
+        ```
+    - controller의 About()메서드
+        ```cs
+        public async Task<IActionResult> About()
+        {  
+            //정적HTML을 DB데이터로 동적처리
+            //db에서 데이터를 불러온 뒤 about, skill객체에 데이터 담아서 뷰로 넘겨줌
+            var skillCount = _context.skill.Count();
+            var skill = await _context.skill.ToListAsync();
+
+            //FirstAsync()는 데이터가 없으면 예외발생
+            //FirstOrDefaultAsync()는 데이터가 없으면 널값
+            var about = await _context.About.FirstOrDefaultAsync();
+
+            ViewBag.SkillCount = skillCount;
+            ViewBag.ColNum = (skillCount/2)+ 1;
+
+            var model = new AboutModel();
+            model.Skill = skill;
+            model.About = about;
+            return View(model);
+        }
+        ```
+    - About.cshtml뷰의 데이터변수 사용
+        ```cs
+        @model MyPortfolioWebApp.Models.AboutModel
+        @{
+            ViewData["Title"] = "About Page";
+            var skillCount = ViewBag.SkillCount;
+            var colNum = ViewBag.ColNum;
+        }
+
+         @{
+            var birth = Model.About.BirthDate;
+            var now = DateTime.Now;
+            var age = now.Year - birth.Year;
+            if (birth.Date > now.AddYears(-age))
+            {
+                age--;
+            }
+        }
+        ```
+        ```html
+        <div class="col-lg-6">
+            <ul>
+                <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>@Model.About.BirthDate.ToShortDateString()</span></li>
+                <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span>@Model.About.WebSite</span></li>
+                <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>@age 세</span></li>
+            <ul>
+
+            @for (var i = 0; i < colNum; i++)
+            {
+            <div class="progress">
+                <span class="skill"><span>@skills[i].Langauge</span> <i class="val">@skills[i].Level%</i></span>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar" role="progressbar" aria-valuenow=@skills[i].Level aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            }
+        </div>
+        ```
+        - <img src='./day82/기존db에 테이블만들기.png' width=500>
+        - <img src='./day82/wwwroot-img폴더.png' width=500>
+        - <img src='./day82/정적데이터db연동.png' width= 500>
+6. 회원가입
+    - nuget패키지관리자 - Microsoft.AspNetCore.Identity.EntityFramewor 8.0.16 설치
+    - ApplicationDBContext에서 기반클래스를 IdentityDbContext로 변경 [ ApplicationDBContext](./day82/Day09Study/MyPortfolioWebApp/Models/ApplicationDBContext.cs)
+    - Program.cs에서 ASP.NET Core Identity설정 및 UseAuthorization, UseAuthentication  [program.cs](./day82/Day09Study/MyPortfolioWebApp/Program.cs)
+        ```cs
+        //asp.net core identity 설정
+        builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDBContext>()
+            .AddDefaultTokenProviders();
+        
+        var app = builder.Build();
+
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.UseAuthorization();   //계정
+        app.UseAuthentication(); //권한
+        ```
+    - nuget패키지관리자 콘솔 - Add-Migration initialIdentity , update-database
+    - MySql Workbench에서 추가된 7개 AspNet* 테이블 확인
+    - <img src='./day82/identity테이블.png' width=500>
+
+
+## 83일차(6/5)
+6. 회원가입
+7. 게시판 준비
 - 해야할 것
     - contact뷰의 form send
     - board 뷰 디자인 및 기능

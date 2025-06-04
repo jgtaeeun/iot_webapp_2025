@@ -1,0 +1,63 @@
+﻿@using Westwind.AspNetCore.Markdown
+@model MyPortfolioWebApp.Models.News
+
+@{
+    ViewData["Title"] = "Details";
+}
+<section id="contact" class="contact section">
+    
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Details</h2>
+    </div>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Writer)</th>
+                    <td>@Html.DisplayFor(model => model.Writer)</td>
+                </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Title)</th>
+                    <td>@Html.DisplayFor(model => model.Title)</td>
+                </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+
+                    <td>
+                        
+                             @* @Html.DisplayFor(model => model.Description)  *@
+                            @Markdown.ParseHtmlString(Model.Description);
+                    </td>
+                </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.PostdDate)</th>
+                    <td>@Html.DisplayFor(model => model.PostdDate)</td>
+                </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.ReadCount)</th>
+                    <td>@Html.DisplayFor(model => model.ReadCount)</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-success btn-sm btn-kelly " >Edit</a>
+            <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-success btn-sm btn-kelly ">Delete</a>
+            <a asp-action="Index" class="btn btn-success btn-sm btn-kelly ">Back to List</a>
+        </div>
+      
+    </div>
+  
+
+</section><!-- /Contact Section -->
+
+@section Scripts{ 
+    <script src="~/dompurify/purify.min.js"></script> 
+    <script>
+
+        const dirty = document.getElementById("rawHtml").innerHTML;
+        const clean = DOMPurify.sanitize(dirty);
+        document.getElementById("viewer").innerHTML=clean;
+     </script> 
+ }

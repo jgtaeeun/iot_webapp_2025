@@ -1,0 +1,72 @@
+﻿@model MyPortfolioWebApp.Models.News
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<section id="contact" class="contact section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Create</h2>
+    </div>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+ 
+            <div class="row" style="display: flex; justify-content: center;">
+                <div class="col-md-4" style="display: flex; justify-content: center; ">
+              
+                    <form asp-controller="News" asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        @* <div class="form-group"> *@
+                        @*     <label asp-for="Writer" class="control-label"></label> *@
+                        @*     <input asp-for="Writer" class="form-control" /> *@
+                        @*     <span asp-validation-for="Writer" class="text-danger"></span> *@
+                        @* </div> *@
+                    @* <h2>Create</h2> *@
+                    @* <hr /> *@
+                         <input asp-for="Writer" class="form-control" hidden/>
+                        <input asp-for="PostdDate" class="form-control" hidden />
+                        <input asp-for="ReadCount" class="form-control" hidden />
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description" class="control-label"></label>
+                            @* <input asp-for="Description" class="form-control" /> *@
+                        <textarea asp-for="Description" class="form-control editor" rows="10" placeholder="Description"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        @* <div class="form-group"> *@
+                        @*     <label asp-for="PostdDate" class="control-label"></label> *@
+                        @*     <input asp-for="PostdDate" class="form-control" /> *@
+                        @*     <span asp-validation-for="PostdDate" class="text-danger"></span> *@
+                        @* </div> *@
+                        @* <div class="form-group"> *@
+                        @*     <label asp-for="ReadCount" class="control-label"></label> *@
+                        @*     <input asp-for="ReadCount" class="form-control" /> *@
+                        @*     <span asp-validation-for="ReadCount" class="text-danger"></span> *@
+                        @* </div> *@
+                        <br />
+                        <div class="form-group" style="display: flex; justify-content: space-between">
+
+                        <input type="submit" value="Create" class="btn btn-success btn-sm btn-kelly" />
+                        <a asp-action="Index" class="btn btn-success btn-sm btn-kelly " >Back to List</a>
+                        </div>
+                    </form>
+                </div>
+         </div>
+        
+     
+    </div>
+</section>
+<!--입력검증 스크립트 포함-->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+  
+}
