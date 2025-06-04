@@ -1,5 +1,15 @@
 # iot_webapp_2025
 iot 개발자 과정 ASP.NET Core 학습 리포지토리
+### WinApp, WebApp 비교
+- WinApp
+    - Visual Studio 2022 - 새프로젝트만들기 - WPF UI - Blank project 또는 Windows Forms 앱
+    - <img src='./day82/winapp.png' width=500>
+    - <img src='./day82/winapp패키지.png' width=500>
+- WebApp
+    - Visual Studio 2022 - 새프로젝트만들기 - ASP.NET Core 웹앱(Model-View-Controller)
+    - <img src='./day82/webapp.png' width=500>
+    - <img src='./day82/webapp패키ㅣㅈ.png' width=500>
+
 ### 이미지 참고 사이트
 - [Placehold](https://placehold.co/)
 - [Lorem Picsum](https://picsum.photos/)
