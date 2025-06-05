@@ -1,0 +1,42 @@
+﻿@model MyPortfolioWebApp.Models.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<section id="contact" class="contact section">
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Login</h2>
+    </div>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row" style="display: flex; justify-content: center;">
+            <div class="col-md-4" style="display: flex; justify-content: center; ">
+                <form asp-action="Login">
+                    <div asp-validation-summary="All" class="text-danger" ></div>
+                    <div class="form-group">
+                        <label asp-for="Email">이메일</label>
+                        <input asp-for="Email" class="form-control">
+                        <span asp-asp-validation-for="Email" class="text-danger"></span>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Password">패스워드</label>
+                        <input asp-for="Password" class="form-control">
+                        <span asp-asp-validation-for="Password" class="text-danger"></span>
+
+                    </div>
+                    <br />
+                    <div class="form-group" style="display: flex; justify-content:center">
+
+                        <input type="submit" value="로그인" class="btn btn-success btn-sm btn-kelly" />
+         
+                    </div>
+                 
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</section><!-- /Contact Section -->

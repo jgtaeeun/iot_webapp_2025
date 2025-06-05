@@ -1,0 +1,135 @@
+﻿@inject SignInManager<CustomUser> SignInManager
+@inject UserManager<CustomUser> UserManager
+@model IEnumerable<MyPortfolioWebApp.Models.Board>
+
+@{
+    ViewData["Title"] = "Board";
+}
+
+
+@{
+    var startPage = ViewBag.StartPage;
+    var endPage = ViewBag.EndPage;
+    var page = ViewBag.Page;
+    var totalPage = ViewBag.TotalPage;
+    var search = ViewBag.Search;
+
+}
+
+<section id="contact" class="contact section">
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Board</h2>
+        @if (SignInManager.IsSignedIn(User))  //로그인 완료일 때
+        {
+            <p>
+                <a asp-action="Create" asp-controller="Board"
+                   class="btn  btn-success btn-kelly">Create Board</a>
+            </p>
+        }
+
+        <br />
+        <partial name="_Notification">
+    </div>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row mb-2">
+            <form asp-action="Index" method="get">
+                <div class="input-group input-group-sm justify-content-end">
+                    <input type="text" id="search" name="search" class="form-control-sm" value="@ViewBag.Search" />
+                    <button type="submit" class="btn btn-success btn-kelly">검색</button>
+                </div>
+            </form>
+
+        </div>
+        <table class="board-table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Writer)
+                    </th>
+                    
+                    <th>
+                        @Html.DisplayNameFor(model => model.PostDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ReadCount)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model) {
+                    <tr>
+                        <td class="content-center">
+                           @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td class="content-center">
+                             <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
+                        </td>
+                        <td class="content-center">
+                            @Html.DisplayFor(modelItem => item.Writer)
+                        </td>
+                        <td class="content-center">
+                            @Html.DisplayFor(modelItem => item.PostDate)
+                        </td>
+                        <td class="content-center">
+                            @Html.DisplayFor(modelItem => item.ReadCount)
+                        </td>
+                        
+                    </tr>
+            }
+            </tbody>
+    </table>
+        <div class="text-center mt-3">
+            <div class="in">
+                <ul class="pagination justify-content-center">
+
+                    <!--페이지 이동의 도우미 역할-처음 페이지로 가는 링크-->
+                    @if (page > 1)
+                    {
+                        <li class="page-item"><a href="?page=1&search=@search" class="page-link">《</a></li>
+                    }
+
+                    <!--페이지 이동의 도우미 역할-이전 페이지 링크-->
+                    @if (page > 1)
+                    {
+                        <li class="page-item"><a href="?page=@(page-1)&search=@search" class="page-link">〈</a></li>
+                    }
+
+                    <!--사용자가 직접 특정 페이지 숫자를 클릭해서 이동할 수 있게 합니다.-->
+                    @for (var pcount = startPage; pcount <= endPage; pcount++)
+                    {
+                        if (pcount == page)
+                        {
+                            <li class="page-item">
+                                <a href="?page=@pcount&search=@search" class="page-link active">@pcount</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                <a href="?page=@pcount&search=@search" class="page-link">@pcount</a>
+                            </li>
+                        }
+                    }
+                    <!-- 페이지 이동의 도우미 역할-다음 페이지 링크-->
+                    @if (page < totalPage)
+                    {
+                        <li class="page-item"><a href="?page=@(page+1)&search=@search" class="page-link">〉</a></li>
+                    }
+                    <!--페이지 이동의 도우미 역할-마지막 페이지 링크-->
+                    @if (page != totalPage)
+                    {
+                        <li class="page-item"><a href="?page=@(totalPage)&search=@search" class="page-link">》</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</section><!-- /Contact Section -->

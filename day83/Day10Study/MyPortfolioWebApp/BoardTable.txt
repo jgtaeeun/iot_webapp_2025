@@ -1,0 +1,9 @@
+﻿CREATE TABLE `smarthome`.`Board` (
+  `Id` INT NOT NULL AUTO_INCREMENT,
+  `Email` VARCHAR(45) NOT NULL,
+  `Writer` VARCHAR(45) NULL,
+  `Title` VARCHAR(45) NOT NULL,
+  `Contents` VARCHAR(45) NOT NULL,
+  `PostDate` DATETIME NULL,
+  `ReadCount` INT NULL,
+  PRIMARY KEY (`Id`));

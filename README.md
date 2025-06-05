@@ -15,6 +15,10 @@ iot 개발자 과정 ASP.NET Core 학습 리포지토리
 - [Lorem Picsum](https://picsum.photos/)
 - [LoremFlickr](https://loremflickr.com/)
 
+### Visual Studio Tip
+- 이전 솔루션을 복사하고 나서 MSBuild에서 오류가 발생할 가능성이 있음
+- 이를 대비해서 프로젝트 내 bin, obj 폴더를 삭제 후 visual studio를 다시 실행하면, bin, obj 폴더를 재생성
+
 ## 74일차(5/22)
 ### Web
 - 인터넷 상에 사용되는 서비스 중 하나
@@ -1494,8 +1498,133 @@ https://github.com/user-attachments/assets/e93ef4c3-9fc6-4dca-be29-1a9c650c8e21
 
 
 ## 83일차(6/5)
-6. 회원가입
-7. 게시판 준비
-- 해야할 것
-    - contact뷰의 form send
-    - board 뷰 디자인 및 기능
+#### ASP.NET Core MVC - Personal Portfolio site  [Kelly-Personal Portpolio](./day83/Day10Study/MyPortfolioWebApp)
+6. 회원가입 , 로그인
+    - 자동생성 테이블
+        - AspNetRoleClaims : 역할 내 모든 사용자에게 부여되는 클레임
+        - AspNetRoles : 역할 저장 테이블
+        - AspNetUserClaims : 사용자가 소유한 클레임
+        - AspNetUserLogins : 사용자를 로그인에 연결
+        - AspNetUserRoles : 사용자테이블, 역할테이블을 연결하는 join entity
+        - `AspNetUsers` : 사용자정보테이블
+        - AspNetUserTokens : 사용자 인증토큰 테이블
+    1. 회원가입
+        - Models폴더 내에 회원가입 Register.cs생성 [Register.cs](./day83/Day10Study/MyPortfolioWebApp/Models/RegisterModel.cs)
+        - Controller폴더 내에 AccountController.cs 생성 및 회원가입 post,get함수 [AccountController.cs](./day83/Day10Study/MyPortfolioWebApp/Controllers/AccountController.cs)
+        - AcoountControll.cs에서 Register 오른쪽 클릭 - razor뷰 추가  [Register.cshtml](./day83/Day10Study/MyPortfolioWebApp/Views/Account/Register.cshtml)
+            - <img src='./day83/뷰.png' width=500> 
+        - http://localhost:5234/Account/Register에서 회원가입(520@naver.com / Core_p@ssw0rd)
+            - <img src='./day83/회원가입.png' width=500>
+    2. 로그인 , 로그아웃
+        - Models폴더 내에 로그인 Login.cs생성 [Login.cs](./day83/Day10Study/MyPortfolioWebApp/Models/Login.cs)
+        - AccountController.cs  내에 로그인 post, get함수 & 로그아웃 Post함수  작성 [AccountController.cs](./day83/Day10Study/MyPortfolioWebApp/Controllers/AccountController.cs)
+        - AcoountControll.cs에서 Login 오른쪽 클릭 - razor뷰 추가 [Login.cshtml](./day83/Day10Study/MyPortfolioWebApp/Views/Account/Login.cshtml)
+    3. _layout.cshtml에서 로그인, 회원가입 버튼 추가 및 css [_layout.cshtml](./day83/Day10Study/MyPortfolioWebApp/Views/Shared/_Layout.cshtml)  [_layout.cshtml.css](./day83/Day10Study/MyPortfolioWebApp/Views/Shared/_Layout.cshtml.css)
+    4. 로그인 유무 확인 위한 준비
+        - _ViewwImports.cshtml에 @using Microsoft.AspNetCore.Identity 코드 추가
+        - _layout.cshtml, News폴더 내의 Index.cshtml, Details.cshtml에 의존성 객체 추가
+            ```cs
+            @inject SignInManager<IdentityUser> SignInManager
+            @inject UserManager<IdentityUser> UserManager
+            ```
+        - 글작성할 때, 로그인 유무 확인 및 글작성자=로그인사용자  [NewsController-Create](./day83/Day10Study/MyPortfolioWebApp/Controllers/NewsController.cs)  [Create.cshtml](./day83/Day10Study/MyPortfolioWebApp/Views/News/Create.cshtml)
+        - 글수정은 글작성자=로그인사용자 [Details.cshtml](./day83/Day10Study/MyPortfolioWebApp/Views/News/Details.cshtml)
+    5. Login.cshtml, Register.cshtml 디자인 수정
+7. 회원가입 정보 확장
+    - Models폴더 내에 CustomUser.cs 모델 생성 .IdentityUser를 상속
+    - Program.cs에서 IdentityUser->CustomUser로 변경
+        ```cs
+        //asp.net core identity 설정
+        builder.Services.AddIdentity<CustomUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDBContext>()
+            .AddDefaultTokenProviders();
+        ```
+    - AccountController.cs에서 IdentityUser->CustomUser로 변경
+    -  _layout.cshtml, News폴더 내의 Index.cshtml, Details.cshtml에서 IdentityUser->CustomUser로 변경
+    - ApplicationDBContext.cs에도 CustomUser추가
+    - nuget패키지 관리자 콘솔 -  Add-Migration AddPropertiesOnIdentityUser , Update-Database
+    - <img src='./day83/customUser.png' width= 500>
+8. CustomUser로 회원가입
+    - Register.cshtml 폼 추가 -Mobile, City, Hobby
+    - AccountController.cs에 Post Register함수 내 코드 수정
+        ```cs
+          var user = new CustomUser { UserName= model.Email, Email = model.Email , PhoneNumber= model.PhoneNumber 
+         , Mobile = model.Mobile, City = model.City, Hobby = model.Hobby}; 
+        ```
+    - Program.cs에서 패스워드 정책 간단하게 변경
+        ```CS
+         //password정책
+        //변경전 - 최대 6자리 이상, 특수문자 1개 포함, 영어 대소문자 각각 포함
+        builder.Services.Configure<IdentityOptions>(options =>
+        {
+            options.Password.RequiredLength = 4;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireDigit = false;
+            
+        });
+        ```
+9. News-Details.cshtml 디자인 수정
+    ```html
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-md-4" style="display: flex; justify-content: center; ">
+            <table class="table " style="width: 100%; table-layout: auto;">
+                <tbody>
+                    <tr>
+                        <th style="min-width: 120px; white-space: nowrap;" >@Html.DisplayNameFor(model => model.Writer)</th>
+                        <td>@Html.DisplayFor(model => model.Writer)</td>
+                    </tr>
+                    <tr>
+                        <th style="min-width: 120px; white-space: nowrap;">@Html.DisplayNameFor(model => model.Title)</th>
+                        <td>@Html.DisplayFor(model => model.Title)</td>
+                    </tr>
+                    <tr>
+                        <th style="min-width: 120px; white-space: nowrap;">@Html.DisplayNameFor(model => model.Description)</th>
+
+                        <td>
+
+                            @* @Html.DisplayFor(model => model.Description)  *@
+                            @Markdown.ParseHtmlString(Model.Description);
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="min-width: 120px; white-space: nowrap;">@Html.DisplayNameFor(model => model.PostdDate)</th>
+                        <td>@Html.DisplayFor(model => model.PostdDate)</td>
+                    </tr>
+                    <tr>
+                        <th style="min-width: 120px; white-space: nowrap;">@Html.DisplayNameFor(model => model.ReadCount)</th>
+                        <td>@Html.DisplayFor(model => model.ReadCount)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    ```
+
+10. Home-Contact.cshtml의  form send
+    - ContactModel.cs생성
+    - HomeController의 post Contact() 함수 수정
+    - Contact.cshtml의 form, input의 asp-for속성 수정
+    - <img src='./day83/gmail인증비밀번호.png' width=500>
+10. board 뷰 디자인 및 기능
+    - mysql에서 Board테이블 생성
+    - nuget패키지 관리자 콘솔 
+    ```
+    PM> Scaffold-DbContext "Server=localhost;Database=smarthome;Uid=root;Pwd=12345;Charset=utf8;"  Pomelo.EntityFrameworkCore.MySql -OutputDir BackupModels 
+    ```
+    - BackupModels의 Board.cs를 Models폴더로 이동 및 나머지 테이블은 삭제
+    - ApplicationDBContext.cs에 Board dbcontext 추가
+    - BoardController 생성
+        - controller폴더 - 오른쪽 마우스 - 추가 - 컨트롤러 - Entity Framework를 사용하며 뷰가 포함된 MVC 컨트롤러
+        - <img src='./day83/BoardController.png' width=500>
+    - _layout.cshtml에서 링크를 Board컨트롤러의 Index로 연결
+    - Board폴더 내의 Index, Create, Delete, Details, Edit뷰를 News폴더 내의 뷰들로 디자인 수정
+## 84일차(6/9)
+
+11. 해야할 것
+    - Board뷰 - 디테일,편집,삭제 ,create ,로그인
+    - Contact뷰 -에러메시지
+    - Contact() post 메서드 신규 추가 
+    - 메일관련 작업 - pendding
+
