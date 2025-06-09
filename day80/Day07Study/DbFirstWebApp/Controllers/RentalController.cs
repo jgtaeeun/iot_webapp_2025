@@ -59,9 +59,21 @@ namespace DbFirstWebApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idx,MemberIdx,BookIdx,RentalDate,ReturnDate")] Rentaltbl rentaltbl)
-        {
+        {   // 불필요한 속성 제거 
+
+            ModelState.Remove(nameof(rentaltbl.BookIdxNavigation));
+            ModelState.Remove(nameof(rentaltbl.MemberIdxNavigation));
+
             if (ModelState.IsValid)
             {
+                //  수동 설정
+                rentaltbl.BookIdxNavigation = await _context.Bookstbls
+                    .FirstOrDefaultAsync(d => d.Idx == rentaltbl.BookIdx);
+
+                //  수동 설정
+                rentaltbl.MemberIdxNavigation = await _context.Membertbls
+                    .FirstOrDefaultAsync(d => d.Idx == rentaltbl.MemberIdx);
+
                 _context.Add(rentaltbl);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -100,11 +112,23 @@ namespace DbFirstWebApp.Controllers
             {
                 return NotFound();
             }
+            // 불필요한 속성 제거 
+            ModelState.Remove(nameof(rentaltbl.BookIdxNavigation));
+            ModelState.Remove(nameof(rentaltbl.MemberIdxNavigation));
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    //  수동 설정
+                    rentaltbl.BookIdxNavigation = await _context.Bookstbls
+                        .FirstOrDefaultAsync(d => d.Idx == rentaltbl.BookIdx);
+
+                    //  수동 설정
+                    rentaltbl.MemberIdxNavigation = await _context.Membertbls
+                        .FirstOrDefaultAsync(d => d.Idx == rentaltbl.MemberIdx);
+
+
                     _context.Update(rentaltbl);
                     await _context.SaveChangesAsync();
                 }

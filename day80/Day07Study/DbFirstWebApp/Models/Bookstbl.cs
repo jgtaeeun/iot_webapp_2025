@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DbFirstWebApp.Models;
 
@@ -8,6 +11,7 @@ public partial class Bookstbl
     public int Idx { get; set; }
 
     public string? Author { get; set; }
+
 
     public string Division { get; set; } = null!;
 
@@ -20,6 +24,7 @@ public partial class Bookstbl
     public decimal? Price { get; set; }
 
     //부모 Divtbl - 자식 Booktbl
+    [BindNever]
     public virtual Divtbl DivisionNavigation { get; set; } = null!;
 
     //부모 Booktbl- 자식 Rentaltbl

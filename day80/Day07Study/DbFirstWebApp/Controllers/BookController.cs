@@ -57,9 +57,16 @@ namespace DbFirstWebApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idx,Author,Division,Names,ReleaseDate,Isbn,Price")] Bookstbl bookstbl)
-        {
+        {   // 불필요한 속성 제거
+            ModelState.Remove(nameof(bookstbl.DivisionNavigation));
+
             if (ModelState.IsValid)
             {
+
+                // DivisionNavigation 수동 설정
+                bookstbl.DivisionNavigation = await _context.Divtbls
+                    .FirstOrDefaultAsync(d => d.Division == bookstbl.Division);
+
                 _context.Add(bookstbl);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -96,11 +103,17 @@ namespace DbFirstWebApp.Controllers
             {
                 return NotFound();
             }
+            // 불필요한 속성 제거
+            ModelState.Remove(nameof(bookstbl.DivisionNavigation));
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    // DivisionNavigation 수동 설정
+                    bookstbl.DivisionNavigation = await _context.Divtbls
+                        .FirstOrDefaultAsync(d => d.Division == bookstbl.Division);
+
                     _context.Update(bookstbl);
                     await _context.SaveChangesAsync();
                 }

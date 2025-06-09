@@ -1053,7 +1053,33 @@ https://github.com/user-attachments/assets/294b5cd4-a7a6-4481-a6b4-8360bdee63dc
 9. _Layout.cshtml에서 nav item 설정 , 뷰의 디자인 수정(a태그의 속성 class=btn 설정)
 10. CRUD 실행
     - Div, Member은 CRUD 다 가능
-    - Book, Rental은 CREATE, Edit 실행안됨 ->코드수정필요
+    - Book, Rental은 CREATE, Edit 실행안됨 ->코드수정필요 ->해결(6/9)
+    ```cs
+    //BookController의 CREATE, Edit문에 추가
+    // 불필요한 속성 제거 
+    ModelState.Remove(nameof(bookstbl.DivisionNavigation));
+      
+   
+    // DivisionNavigation 수동 설정
+    bookstbl.DivisionNavigation = await _context.Divtbls
+        .FirstOrDefaultAsync(d => d.Division == bookstbl.Division);
+    ```
+    ```cs
+    //RentalController의 CREATE, Edit문에 추가
+    // 불필요한 속성 제거 
+    ModelState.Remove(nameof(rentaltbl.BookIdxNavigation));
+    ModelState.Remove(nameof(rentaltbl.MemberIdxNavigation));
+
+    //  수동 설정
+    rentaltbl.BookIdxNavigation = await _context.Bookstbls
+        .FirstOrDefaultAsync(d => d.Idx == rentaltbl.BookIdx);
+
+    //  수동 설정
+    rentaltbl.MemberIdxNavigation = await _context.Membertbls
+        .FirstOrDefaultAsync(d => d.Idx == rentaltbl.MemberIdx);
+
+    ```
+    - <img src='./day80/create문의 divisionnavigation에러 해결.png' width=500>
     - <img src='./day80/efdbfirst로 mysql데이터불러오기.png' width=500>
 
 #### ASP.NET Core MVC - Personal Portfolio site [Kelly-Personal Portpolio](./day80/Day07Study/MyPortfolioWebApp)
