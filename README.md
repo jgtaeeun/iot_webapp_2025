@@ -1641,13 +1641,14 @@ https://github.com/user-attachments/assets/13f5b331-ac76-4cb9-ae4b-39fbbc6b6ac2
 
 https://github.com/user-attachments/assets/237042f5-7cdf-4015-a835-a18345ed7d3f
 
-
-## 84일차(6/9)
-
 11. 해야할 것
 - Contact뷰 -에러메시지
 - Contact() post 메서드 신규 추가 
 - 메일관련 작업 - pendding
+
+
+## 84일차(6/9)
+
 
 ### ASP.NET Core API서버(Web API)
 - 2000년도 초반, 웹서비스 이름의 변형
@@ -1662,5 +1663,104 @@ https://github.com/user-attachments/assets/237042f5-7cdf-4015-a835-a18345ed7d3f
 ####  Web API 만들기 [Web API](./day84/WebApiApp01/WebApiApp01/)
 1. ASP.NET Core 웹 API로 프로젝트 생성
     - <img src='./day84/webapi프로젝트설정.png' width=500>
+2. Swagger 화면 확인
+    - <img src='./day84/SWAGGER기본.png' width=500>
+3. Program.cs 소스 분석 [Web API Program.cs ](./day84/WebApiApp01/WebApiApp01/Program.cs)  [MyPortfolioWebApp](./day83/Day10Study/MyPortfolioWebApp/Program.cs)
+    - <img src='./day84/program.cs비교.png' width=500>
 
+4. WeatherForecast 모델 클래스 확인 [WeatherForecast.cs](./day84/WebApiApp01/WebApiApp01/WeatherForecast.cs) 
+5. WeatherForecastController클래스 확인  [WeatherForecastController.cs](./day84/WebApiApp01/WebApiApp01/Controllers/WeatherForecastController.cs) 
+    - <img src='./day84/controller1.png' width=500>
+#### 웹서비스 테스트 툴
+1. 웹브라우저 - URL입력, json뷰어 확인
+    - <img src='./day84/웹브라우저.png' width=500>
+2. Swagger UI - Visual Studio에 포함
+    - <img src='./day84/swagger.png' width=500>
+3. [Postman](https://www.postman.com/) - 가장 기능이 다양
+    - <img src='./day84/postman.png' width=500>
+
+#### 웹서비스 4가지 메서드
+- 일반 웹사이트에서의 GET/POST는 동일
+- GET - 리소스(데이터) 조회
+- POST - 요청 데이터 처리(저장, 수정, 삭제). 주로 등록에 사용
+- PUT - 리소스 대체, 주로 수정에 사용
+- DELETE - 리소스 삭제, 주로 삭제에 사용
+- PATCH - 리소스 부분 변경(수정). 거의 사용안함. PATCH메서드를 지원하지 않으면 PUT으로 대체
+
+#### WebAPI CRUD 작업 연습
+
+|API|설명|Request body|Response body|
+|:--|:--|:--|:--|
+|GET ~/api/books|모든 책정보 가져오기|None|책정보 배열|
+|GET ~/api/books/{id}|특정 책정보 가져오기|None|책정보 한건|
+|POST ~/api/books|새 책 추가|Book 데이터|Book 데이터|
+|PUT ~/api/books/{id}|기존 책 수정|Book 데이터|None|
+|DELETE ~/api/books/{id}/기존 책 삭제|None|None|
+
+1. ASP.NET Core 웹 API로 프로젝트 생성 [WebApiApp02](./day84/WebApiApp01/WebApiApp02/)
+2. Models폴더 내에 Book.cs 생성 [Book.cs](./day84/WebApiApp01/WebApiApp02/Models/Book.cs)
+3. Nuget패키지 설치 
+    - Pomelo.EntityFrameworkCore.MySq 8.0.3.
+    - Microsoft.EntityFrameworkCore 8.0.16
+4. appsettings.json에서 connectionString 작성   [appsettings.json](./day84/WebApiApp01/WebApiApp02/appsettings.json)
+5. MySql Book 테이블 생성
+6. Models폴더 내에 ApplicationDBContext.cs 생성 [ApplicationDBContext.cs](./day84/WebApiApp01/WebApiApp02/Models/ApplicationDBContext.cs)
+7. Program.cs에 AppDbContext 초기화   [Program.cs](./day84/WebApiApp01/WebApiApp02/Program.cs)
+8. 스캐폴딩으로 controller 생성  [BooksController](./day84/WebApiApp01/WebApiApp02/Controllers/BooksController.cs)
+    - 추가 > 컨트롤러 > API > EntityFramework 사용하며 동작이 포함된 API 컨트롤러
+    - <img src='./day84/efapi컨트롤러.png' width=500>
+9. CRUD 
+    - POST, PUT 주의사항
+        - <img src='./day84/POST시 주의사항.png' width=500>
+    - GET
+        - <img src='./day84/GET.png' width=500>
+    - POST 
+        - <img src='./day84/POST.png' width=500>
+    - PUT , GET
+        - <img src='./day84/PUT.png'>
+        - <img src='./day84/PUT후GET.png' width=500>
+    - DELETE 
+        - <img src='./day84/DELETE.png'>
+#### OpenAPI 형식 WebAPI 연습 -IoT 센서데이터를 웹API 서비스
+1. MySQL IOT_DATA 테이블 생성 
+2. Python에서 더미데이터 생성 [더미데이터](./day84/iot_dummy.py)
+3. 웹API 프로젝트 생성 [IoT 센서데이터 웹API 서비스](./day84/WebApiApp01/WebApiApp03/)
+4. Nuget패키지 설치 
+    - Pomelo.EntityFrameworkCore.MySq 8.0.3.
+    - Microsoft.EntityFrameworkCore 8.0.16
+5. appsettings.json에서 connectionString 작성   
+6. Models폴더 내에 ApplicationDBContext.cs , IOTDatas 생성 
+7. Program.cs에 AppDbContext 초기화  
+8. 스캐폴딩으로 controller 생성
+    - GET 메서드 외 모두 삭제
+9. GET 
+    ```cs
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<IOTDatas>>> GetIOT_DATA(string serviceKey, string startDate, string endDate , string resultType)
+    {
+        if (serviceKey == null)
+        {
+            return BadRequest();
+        }
+        else
+        {
+            //서버에서 키를 검색해서 valid 서비스키일 때
+        }
+        Debug.WriteLine($"startDate: {startDate}, endDate: {endDate}");
+        startDate = $"{startDate} 00:00:00";
+        endDate = $"{endDate} 23:59:59";
+        var result = await _context.IOT_DATA.FromSql($"SELECT * FROM IOT_DATA WHERE sensing_dt >= {startDate } AND sensing_dt <= {endDate}").ToListAsync();
+        return result;
+
+    }
+    ```
+    - <img src='./day84/get파라미터swagger.png' width=500>
+    - <img src ='./day84/GET파라미터.png' width=500>
+    - <img src = './day84/mysql쿼리실행.png' width = 500>
+    - <img src= './day84/get요청쿼리.png' width=500>
+
+## 85일차(6/10)
+### ASP.NET Core API 서버
+
+#### WebAPI 서버 + 웹사이트 + 윈앱
 ### AWS 클라우드 업로드

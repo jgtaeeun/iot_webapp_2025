@@ -1,0 +1,6 @@
+﻿CREATE TABLE `smarthome`.`Book` (
+  `Idx` INT NOT NULL AUTO_INCREMENT,
+  `Names` VARCHAR(250) NOT NULL,
+  `Author` VARCHAR(45) NOT NULL,
+  `ReleaseDate` DATE NOT NULL,
+  PRIMARY KEY (`Idx`));
