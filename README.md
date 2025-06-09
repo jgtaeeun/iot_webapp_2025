@@ -1053,6 +1053,7 @@ https://github.com/user-attachments/assets/294b5cd4-a7a6-4481-a6b4-8360bdee63dc
 9. _Layout.cshtml에서 nav item 설정 , 뷰의 디자인 수정(a태그의 속성 class=btn 설정)
 10. CRUD 실행
     - Div, Member은 CRUD 다 가능
+        - <img src='./day80/efdbfirst로 mysql데이터불러오기.png' width=500>
     - Book, Rental은 CREATE, Edit 실행안됨 ->코드수정필요 ->해결(6/9)
     ```cs
     //BookController의 CREATE, Edit문에 추가
@@ -1080,7 +1081,7 @@ https://github.com/user-attachments/assets/294b5cd4-a7a6-4481-a6b4-8360bdee63dc
 
     ```
     - <img src='./day80/create문의 divisionnavigation에러 해결.png' width=500>
-    - <img src='./day80/efdbfirst로 mysql데이터불러오기.png' width=500>
+   
 - Book, Rental테이블 create, update 실행
   
 
