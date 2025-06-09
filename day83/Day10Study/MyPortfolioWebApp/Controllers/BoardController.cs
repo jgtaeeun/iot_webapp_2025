@@ -67,6 +67,11 @@ namespace MyPortfolioWebApp.Controllers
                 return NotFound();
             }
 
+            //조회수 증가
+            board.ReadCount++;
+            _context.Board.Update(board);
+            await _context.SaveChangesAsync();
+
             return View(board);
         }
 
@@ -81,7 +86,7 @@ namespace MyPortfolioWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Contents")] Board board)
+        public async Task<IActionResult> Create([Bind("Id,Title,Contents, Writer")] Board board)
         {
             if (ModelState.IsValid)
             {
@@ -96,6 +101,16 @@ namespace MyPortfolioWebApp.Controllers
                 TempData["success"] = "뉴스 생성 성공!";
                 return RedirectToAction(nameof(Index));
             }
+            //if (!ModelState.IsValid)
+            //{
+            //    foreach (var kvp in ModelState)
+            //    {
+            //        foreach (var error in kvp.Value.Errors)
+            //        {
+            //            Console.WriteLine($"[Model Error] {kvp.Key} : {error.ErrorMessage}");
+            //        }
+            //    }
+            //}
             return View(board);
         }
 
@@ -120,7 +135,7 @@ namespace MyPortfolioWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Writer,Title,Contents,PostDate,ReadCount")] Board board)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Writer,Title,Contents")] Board board)
         {
             if (id != board.Id)
             {
@@ -131,8 +146,20 @@ namespace MyPortfolioWebApp.Controllers
             {
                 try
                 {
-                    _context.Update(board);
+
+                    var existNews = await _context.Board.FindAsync(id);
+                    if (existNews == null)
+                    {
+                        return NotFound();
+                    }
+
+                    existNews.PostDate = DateTime.Now;
+                    existNews.Title = board.Title;
+                    existNews.Contents = board.Contents;
+                    existNews.Writer= board.Writer;
+
                     await _context.SaveChangesAsync();
+                    TempData["success"] = "뉴스 수정 성공!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {

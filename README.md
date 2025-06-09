@@ -1610,9 +1610,9 @@ https://github.com/user-attachments/assets/e93ef4c3-9fc6-4dca-be29-1a9c650c8e21
 10. board 뷰 디자인 및 기능
     - mysql에서 Board테이블 생성
     - nuget패키지 관리자 콘솔 
-    ```
-    PM> Scaffold-DbContext "Server=localhost;Database=smarthome;Uid=root;Pwd=12345;Charset=utf8;"  Pomelo.EntityFrameworkCore.MySql -OutputDir BackupModels 
-    ```
+        ```
+        PM> Scaffold-DbContext "Server=localhost;Database=smarthome;Uid=root;Pwd=12345;Charset=utf8;"  Pomelo.EntityFrameworkCore.MySql -OutputDir BackupModels 
+        ```
     - BackupModels의 Board.cs를 Models폴더로 이동 및 나머지 테이블은 삭제
     - ApplicationDBContext.cs에 Board dbcontext 추가
     - BoardController 생성
@@ -1620,11 +1620,37 @@ https://github.com/user-attachments/assets/e93ef4c3-9fc6-4dca-be29-1a9c650c8e21
         - <img src='./day83/BoardController.png' width=500>
     - _layout.cshtml에서 링크를 Board컨트롤러의 Index로 연결
     - Board폴더 내의 Index, Create, Delete, Details, Edit뷰를 News폴더 내의 뷰들로 디자인 수정
+        - `Create 계속 ModelState.IsValid가 false인 이유는 Board모델에서 Email이 Required인데 form에 없어서, 그리고 string?이 아니어서였음.`
+        - Writer은 닉네임이라서 User.Identity.Name == Model.Email 비교를 통해 작성자랑 로그인사용자가 같은지 판단.
+        - id가 모델의 key 라면, 일반적으로 폼에서 id 필드를 명시적으로 입력하지 않아도 대부분의 웹 프레임워크에서는 내부적으로 자동 처리됩니다.
+        - 폼 조작을 막기 위해, 실제로 요청된 URL의 ID와 폼으로 넘어온 ID가 같은지를 비교 -> 보안과 일관성을 위해 자주 사용됩니다.
+            ```cs
+            public async Task<IActionResult> Edit(int id, [Bind("Id,Writer,Title,Contents")] Board board)
+            ```
+            - <img src='./day84/id.png' width=-500>
+    - 로그인 성공 시, 게시글 작성 가능 및 자신의 게시글에 대한 편집, 삭제 가능
+    - 로그인 없이 게시글 작성 불가능 
+    - 타인의 글에는 보기만 가능
+    
 ## 84일차(6/9)
 
 11. 해야할 것
-    - Board뷰 - 디테일,편집,삭제 ,create ,로그인
-    - Contact뷰 -에러메시지
-    - Contact() post 메서드 신규 추가 
-    - 메일관련 작업 - pendding
+- Contact뷰 -에러메시지
+- Contact() post 메서드 신규 추가 
+- 메일관련 작업 - pendding
 
+### ASP.NET Core API서버(Web API)
+- 2000년도 초반, 웹서비스 이름의 변형
+- 웹을 통해서 데이터 전달이 목적
+- API서버, WebAPI, RESful Service, OpenAPI(공용)...
+- 초기에는 XML을 데이터 전달로 사용
+- XML의 방대한 데이터크기 때문에 현재는 JSON으로 거의 이전(XML의 1/3수준)
+- WebAPI 서버 사용처
+    - 하나의 서비스로 여러가지 앱에서 같이 사용할 때
+    - 회사 ERP를 웹사이트, 모바일, PC앱으로 사용할 때
+
+####  Web API 만들기 [Web API](./day84/WebApiApp01/WebApiApp01/)
+1. ASP.NET Core 웹 API로 프로젝트 생성
+    - <img src='./day84/webapi프로젝트설정.png' width=500>
+
+### AWS 클라우드 업로드
