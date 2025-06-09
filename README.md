@@ -1081,6 +1081,17 @@ https://github.com/user-attachments/assets/294b5cd4-a7a6-4481-a6b4-8360bdee63dc
     ```
     - <img src='./day80/create문의 divisionnavigation에러 해결.png' width=500>
     - <img src='./day80/efdbfirst로 mysql데이터불러오기.png' width=500>
+- Book, Rental테이블 create, update 실행
+  
+
+https://github.com/user-attachments/assets/acb98dad-33e2-4268-8b4b-5613a582e635
+
+
+
+
+https://github.com/user-attachments/assets/49835d24-9115-4696-8723-c57ab450dc87
+
+
 
 #### ASP.NET Core MVC - Personal Portfolio site [Kelly-Personal Portpolio](./day80/Day07Study/MyPortfolioWebApp)
 15. news폴더의 뷰 디자인 및 기능 
