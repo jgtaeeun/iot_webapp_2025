@@ -1631,7 +1631,16 @@ https://github.com/user-attachments/assets/e93ef4c3-9fc6-4dca-be29-1a9c650c8e21
     - 로그인 성공 시, 게시글 작성 가능 및 자신의 게시글에 대한 편집, 삭제 가능
     - 로그인 없이 게시글 작성 불가능 
     - 타인의 글에는 보기만 가능
-    
+- 실행화면
+  
+- 회원
+https://github.com/user-attachments/assets/13f5b331-ac76-4cb9-ae4b-39fbbc6b6ac2
+
+- 비회원
+
+https://github.com/user-attachments/assets/237042f5-7cdf-4015-a835-a18345ed7d3f
+
+
 ## 84일차(6/9)
 
 11. 해야할 것
