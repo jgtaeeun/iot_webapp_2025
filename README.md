@@ -1634,6 +1634,7 @@ https://github.com/user-attachments/assets/e93ef4c3-9fc6-4dca-be29-1a9c650c8e21
 - 실행화면
   
 - 회원
+  
 https://github.com/user-attachments/assets/13f5b331-ac76-4cb9-ae4b-39fbbc6b6ac2
 
 - 비회원
