@@ -1798,8 +1798,8 @@ https://github.com/user-attachments/assets/237042f5-7cdf-4015-a835-a18345ed7d3f
     - <img src= './day84/get요청쿼리.png' width=500>
 
 ## 85일차(6/10)
-### ASP.NET Core API 서버 -  WebAPI 서버 + 웹사이트 + 윈앱(wpf)
-#### WebAPI 서버 + 웹사이트
+### ASP.NET Core API 서버 -  WebAPI 서버  + 윈앱(wpf)
+#### WebAPI 서버 + code first 
 - Todo List 오늘할일 API 서비스 [Todo List Asp.Net.Core 앱](./day85/Day12Study/WebApiApp01/)
 
     |API|설명|Request body|Response body|
@@ -1882,8 +1882,10 @@ https://github.com/user-attachments/assets/237042f5-7cdf-4015-a835-a18345ed7d3f
 
 https://github.com/user-attachments/assets/cfd6da8e-fdf2-4933-bfb1-9abe8a990c1c
 
+## 86일차(6/11)
+### ASP.NET Core API 서버가
+#### WebAPI 서버 + 웹사이트
 
-    
 ### AWS 클라우드 업로드
 
 - 자습 때 할 것들

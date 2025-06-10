@@ -1,0 +1,236 @@
+ASP.NET Core 웹 API - CRUD
+
+ 	private readonly AppDbContext _context;
+
+        public TodoItemsController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: api/TodoItems
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems()
+        {
+            return await _context.TodoItems.ToListAsync();
+        }
+
+        // GET: api/TodoItems/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TodoItem>> GetTodoItem(int id)
+        {
+            var todoItem = await _context.TodoItems.FindAsync(id);
+
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            return todoItem;
+        }
+
+        // PUT: api/TodoItems/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutTodoItem(int id, TodoItem todoItem)
+        {
+            if (id != todoItem.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(todoItem).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TodoItemExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // POST: api/TodoItems
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem todoItem)
+        {
+            _context.TodoItems.Add(todoItem);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+        }
+
+        // DELETE: api/TodoItems/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTodoItem(int id)
+        {
+            var todoItem = await _context.TodoItems.FindAsync(id);
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            _context.TodoItems.Remove(todoItem);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool TodoItemExists(int id)
+        {
+            return _context.TodoItems.Any(e => e.Id == id);
+        }
+
+
+WPF 애플리케이션 + 웹API  - CRUD
+
+- GET
+	private async Task GetDatas()
+        {
+            //get메서드
+            GrdTodoItems.ItemsSource = todoItems;
+
+            try
+            {
+                HttpResponseMessage? response = await client.GetAsync("/api/TodoItems");
+                response.EnsureSuccessStatusCode(); //상태코드 출력
+
+                var items = await response.Content.ReadAsAsync<IEnumerable<TodoItem>>();
+                todoItems.CopyFrom(items);
+
+                await this.ShowMessageAsync("API호출", "로드 성공!");
+            }
+            catch (Exception ex)
+            {
+                await this.ShowMessageAsync("API호출 에러", ex.Message);
+
+            }
+
+        }
+
+- GET {Id}
+	private async void GrdTodoItems_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+           
+
+            try
+            {
+                var Id = (GrdTodoItems.SelectedItem as TodoItem)?.Id;
+
+                if (Id == null) return;
+
+                var response = await client.GetAsync($"/api/TodoItems/{Id}");
+                response.EnsureSuccessStatusCode();
+
+                var item = await response.Content.ReadAsAsync<TodoItem>();
+                TxtId.Text = item.Id.ToString();
+                TxtTitle.Text = item.Title.ToString();
+                DtpTodoDate.SelectedDate = DateTime.Parse(item.TodoDate.Insert(4, "-").Insert(7, "-"));
+                CboIsComplete.SelectedValue = item.IsComplete;
+            }
+            catch (Exception ex)
+            {
+                await this.ShowMessageAsync("API호출 에러", ex.Message);
+            }
+        }
+
+	
+- POST 
+        //async시 Task가 return값이지만 버튼클릭이벤트메서드와 연결할 때는 Task를 void로 변경해줘야지 연결이 가능하다.
+        private async void BtnInsert_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            try
+            {
+                var todoItem = new TodoItem
+                {
+                    Id = 0, //Id는 테이블에서 AUTO_INCREMENT되므로
+                    Title = TxtTitle.Text,
+                    TodoDate = Convert.ToDateTime(DtpTodoDate.SelectedDate).ToString("yyyyMMdd"),
+                    IsComplete = Convert.ToBoolean(CboIsComplete.SelectedValue)
+                };
+
+                var response = await client.PostAsJsonAsync("/api/TodoItems", todoItem);
+                response.EnsureSuccessStatusCode(); //상태코드 출력
+
+                InitGroupBox();
+                await GetDatas();
+
+
+            }
+            catch (Exception ex)
+            {
+               await this.ShowMessageAsync("API호출 에러", ex.Message);
+
+            }
+        }
+
+ - PUT{Id}     
+        private async void BtnUpdate_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            try
+            {
+                var todoItem = new TodoItem
+                {
+                    Id = Int32.Parse(TxtId.Text), //Id는 테이블에서 AUTO_INCREMENT되므로
+                    Title = TxtTitle.Text,
+                    TodoDate = Convert.ToDateTime(DtpTodoDate.SelectedDate).ToString("yyyyMMdd"),
+                    IsComplete = Convert.ToBoolean(CboIsComplete.SelectedValue)
+                };
+
+                var response = await client.PutAsJsonAsync($"/api/TodoItems/{todoItem.Id}", todoItem);
+                response.EnsureSuccessStatusCode(); //상태코드 출력
+
+
+                InitGroupBox();
+                await GetDatas();
+
+              
+
+            }
+            catch (Exception ex)
+            {
+                await this.ShowMessageAsync("API호출 에러", ex.Message);
+
+            }
+        }
+
+ - DELETE{Id}   
+        private async void BtnDelete_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            try
+            {
+                var Id = (GrdTodoItems.SelectedItem as TodoItem)?.Id;
+
+                if (Id == null) return;
+
+                var response = await client.DeleteAsync($"/api/TodoItems/{Id}");
+                response.EnsureSuccessStatusCode(); //상태코드 출력
+
+                InitGroupBox();
+                await GetDatas();
+
+      
+            }
+            catch (Exception ex)
+            {
+                await this.ShowMessageAsync("API호출 에러", ex.Message);
+            }
+        }
+
+        private void InitGroupBox() 
+        {
+            TxtId.Text = string.Empty;
+            TxtTitle.Text = string.Empty;
+            DtpTodoDate.Text = string.Empty;
+            CboIsComplete.Text = string.Empty;
+        }
