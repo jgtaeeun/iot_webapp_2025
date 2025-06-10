@@ -1878,6 +1878,11 @@ https://github.com/user-attachments/assets/237042f5-7cdf-4015-a835-a18345ed7d3f
         - PUT
         - DELETE
     7. 실행
+  
+
+https://github.com/user-attachments/assets/cfd6da8e-fdf2-4933-bfb1-9abe8a990c1c
+
+
     
 ### AWS 클라우드 업로드
 
