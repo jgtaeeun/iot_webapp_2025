@@ -1,0 +1,32 @@
+✅ 1. Code First 방식
+코드를 먼저 작성하고, 이를 기반으로 DB 생성
+
+📂 절차 요약
+1. NuGet 패키지 설치 (버전 통일 중요)
+    - MySql.EntityFrameworkCore 8.0.14버전
+    - Microsoft.EntityFrameworkCore  8.0.16 버전 
+    - Microsoft.EntityFrameworkCore.Tools 8.0.16버전
+    - Pomelo.EntityFrameworkCore.Mysql 8.0.3 버전
+
+2. 모델 클래스 (News.cs) 생성
+3. DB 컨텍스트 (ApplicationDBContext.cs) 생성
+4. appsettings.json에 연결 문자열 추가
+5. Program.cs에 DB 컨텍스트 서비스 등록
+6. 패키지 관리자 콘솔
+add-migration AddNewsToDatabase
+update-database
+
+7. 컨트롤러(entity framework를 사용하며 뷰가 포함된 mvc 컨트롤러)  및 뷰 자동 생성 → MVC CRUD 동작 확인
+
+✅ 2. DB First 방식
+📂 절차 요약
+1. DB 스키마가 이미 존재
+2. NuGet 패키지 설치 (역시 버전 통일 필수)
+3. appsettings.json에 연결 문자열 추가
+4. 패키지 관리자 콘솔
+Scaffold-DbContext 명령어로 DB → 코드 생성
+PM> Scaffold-DbContext "Server=localhost;Database=madang;Uid=root;Pwd=12345;Charset=utf8;" MySql.EntityFrameworkCore -OutputDir Models
+
+5. 모델 클래스 및 DbContext (MadangContext.cs) 자동 생성
+6. Program.cs에 DB 컨텍스트 서비스 등록(db연결 초기화)
+7. 컨트롤러(entity framework를 사용하며 뷰가 포함된 mvc 컨트롤러) 및 뷰 자동 생성 → CRUD 구현

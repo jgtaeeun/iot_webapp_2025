@@ -1798,7 +1798,92 @@ https://github.com/user-attachments/assets/237042f5-7cdf-4015-a835-a18345ed7d3f
     - <img src= './day84/get요청쿼리.png' width=500>
 
 ## 85일차(6/10)
-### ASP.NET Core API 서버
+### ASP.NET Core API 서버 -  WebAPI 서버 + 웹사이트 + 윈앱(wpf)
+#### WebAPI 서버 + 웹사이트
+- Todo List 오늘할일 API 서비스 [Todo List Asp.Net.Core 앱](./day85/Day12Study/WebApiApp01/)
 
-#### WebAPI 서버 + 웹사이트 + 윈앱
+    |API|설명|Request body|Response body|
+    |:--|:--|:--|:--|
+    |GET ~/api/todoitems|모든 할일정보 가져오기|None|할일정보 배열|
+    |GET ~/api/todoitems/{id}|특정 할일정보 가져오기|None|할일정보 한건|
+    |POST ~/api/todoitems|새 할일 추가|todoitem 데이터|todoitem 데이터|
+    |PUT ~/api/todoitems/{id}|기존 할일 수정|todoitem 데이터|None|
+    |DELETE ~/api/todoitems/{id}/기존 할일 삭제|None|None|
+
+- Code First 방식
+    1. NuGet 패키지 설치 (버전 통일 중요)
+        - MySql.EntityFrameworkCore 8.0.14버전
+        - Microsoft.EntityFrameworkCore  8.0.16 버전 
+        - Microsoft.EntityFrameworkCore.Tools 8.0.16버전
+        - Pomelo.EntityFrameworkCore.Mysql 8.0.3 버전
+
+    2. 모델 클래스 (TodoItem.cs) 생성 
+        - Code First 방식에서 모델을 생성할 때 string이면 db에서는 longText가 된다. 
+        - 모델에서 db에 저장될 때 데이터 타입을 지정한다.
+        ```cs
+        public class TodoItem
+        {
+            [Key]
+            public int Id { get; set; }
+
+            [Required]
+            [Column(TypeName = "VARCHAR(100)")]
+            public string  Title { get; set; }
+
+            [Required]
+            [Column(TypeName = "CHAR(8)")]
+            public string TodoDate { get; set; }
+
+            public Boolean IsComplete { get; set; }
+        }
+        ```
+    3. DB 컨텍스트 (ApplicationDBContext.cs) 생성
+    4. appsettings.json에 연결 문자열 추가
+    5. Program.cs에 DB 컨텍스트 서비스 등록
+    6.  패키지 관리자 콘솔
+        ```
+        add-migration AddNewsToDatabase
+        update-database
+        ```
+    7. 컨트롤러(api- entity framework를 사용하며 동작이 포함된 api 컨트롤러)  및 뷰 자동 생성 → MVC CRUD 동작 확인
+#### WebAPI 서버 + 윈앱(wpf)
+- Todo List 오늘할일   WPF앱 API 서비스 [ Todo List 오늘할일   WPF앱 ](./day85/Day12Study/WpfTodoListApp/)
+    1. WPF프로젝트 생성
+    2. Nuget패키지 관리자에서 패키지 설치
+        - MahApps.Metro/IconPacks
+        - Microsoft.AspNet.WebApi.Client
+    3. MainView.xaml에 MahApps 관련 코드 추가 , MainView.cs에 MahApps 관련 코드 추가 
+    4. App.xaml에 ResourceDictionary 관련 코드 추가
+    5. MainView.xaml 디자인 [MainView.xaml](./day85/Day12Study/WpfTodoListApp/MainWindow.xaml)
+        ```xml
+        <!-- 날짜-->
+        <DatePicker Grid.Row="2" x:Name="DtpTodoDate" Margin="3"
+                       mah:TextBoxHelper.AutoWatermark="True" mah:TextBoxHelper.Watermark="종료일"></DatePicker>
+        <!-- 날짜+ 시간-->
+         <mah:DateTimePicker Grid.Row="2" x:Name="DtpTodoDate" Margin="3" 
+                       mah:TextBoxHelper.AutoWatermark="True" mah:TextBoxHelper.Watermark="종료일"></mah:DateTimePicker>
+
+        <!--콤보박스 아이템 -->
+        <ComboBox Grid.Row="3" x:Name="CboIsComplete"
+         Margin="3"
+         DisplayMemberPath="Key"
+         SelectedValuePath="Value"
+         mah:TextBoxHelper.AutoWatermark="True"
+         mah:TextBoxHelper.Watermark="완료여부"
+         mah:TextBoxHelper.UseFloatingWatermark="True"></ComboBox>   
+        ```
+    6. MainWindow.cs에서 api요청코드 [MainWindow.cs](./day85/Day12Study/WpfTodoListApp/MainWindow.xaml.cs)
+        - GET
+        - POST
+        - PUT
+        - DELETE
+    7. 실행
+    
 ### AWS 클라우드 업로드
+
+- 자습 때 할 것들
+    - DAY77 : MODERN BUSINESS - ABOUT, BOARD, CONCAT
+    - DAY83 :
+        - Contact뷰 -에러메시지
+        - Contact() post 메서드 신규 추가 
+        - 메일관련 작업 - pendding
