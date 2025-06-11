@@ -1883,10 +1883,208 @@ https://github.com/user-attachments/assets/237042f5-7cdf-4015-a835-a18345ed7d3f
 https://github.com/user-attachments/assets/cfd6da8e-fdf2-4933-bfb1-9abe8a990c1c
 
 ## 86일차(6/11)
-### ASP.NET Core API 서버가
-#### WebAPI 서버 + 웹사이트
+### ASP.NET Core API 서버  - WebAPI 서버 + 웹사이트
+
+#### 웹사이트 with ASP.NET Core  비어있음 프로젝트 [WebFrontEnd](./day86/Day13Study/WebFrontEndApp/)
+1. ASP.NET Core 비어있음 프로젝트 생성 
+    - <img src='./day86/ASP.NET Core 비어있음 프로젝트 추가정보.png' width=500>
+2. wwwroot폴더 생성 및 wwwroot폴더 내에 css, js, html폴더 생성 
+    
+3.  wwwroot-lib-오른쪽마우스-추가-클라이언트쪽 라이브러리 추가
+    - bootstrap, jquery
+    - <img src='./day86/클라이언트라이브러리설치.png' width=500>
+    - <img src='./day86/설치완료.png' width=500>
+4. Program.cs 작성
+5. html 비교
+    1. wwwroot/html/index.html 생성 - VS Code의 Open with Live Server 예제와 동일(정적페이지)
+        - <img src='./day86/html생성.png' width=500>
+        - <img src='./day86/root페이지.png' width=500 > 
+        - <img src='./day86/일반적인html.png' width=500>
+    2. Controllers폴더 생성 + 폴더 내에서 Controller추가(MVC컨트롤러 비어있음) + Index.cshtml뷰 추가 (MVC패턴 - 동적페이지)
+        - <img src='./day86/mvc패턴.png' width=500>
+        - <img src='./day86/동적페이지.png' width=500>
+6. Views-Shared폴더 생성 + 폴더 내에서 _Layout.cshtml추가
+    - 추가-보기-Razor뷰 비어있음-Razor 레이아웃 
+7. HomeContrller에서 Index뷰 다시 생성 
+    - 뷰추가- Razor뷰 - _Layout.cshtml 포함
+    - <img src='./day86/기본뷰.png' width=500>
+
+#### WebAPI 서버 + 웹사이트 with ASP.NET Core  비어있음 프로젝트 [WebAPI 서버 + 웹사이트](./day86/Day13Study/WebFrontEndApp2/)
+- WebAPI  서버는 85일차 프로젝트 그대로 사용 [WebAPI](./day86/Day13Study/WebApiApp01/)
+- 웹사이트는 앞선 웹사이트 with ASP.NET Core  비어있음 프로젝트 그대로 사용
+    - 솔루션 -오른쪽 마우스 - 추가- 기존 프로젝트 - 복사해둔 WebFrontEndApp2 프로젝트 내 WebFrontEndApp2.csproj 파일 선택
+    - wwwroot/html/index.html을 wwwroot/index.html로 파일 위치 수정
+    - 정적 wwwroot/index.html UI구성 및 API호출 alert확인 [index.html](./day86/Day13Study/WebFrontEndApp2/wwwroot/index.html)
+        ```html
+         <label class="list-group-item d-flex gap-3">
+            <input class="form-check-input flex-shrink-0" type="checkbox" value="" checked />
+            <span>
+                <strong>FPS 게임 프로젝트 - Dealer 궁극기 스킬 구현</strong>
+                <small class="d-block text-body-secondary">
+                    <i class="bi bi-calendar-check"></i>
+                    2025-06-11
+                </small>
+            </span>
+        </label>
+        ```
+        ```js
+        <head>
+            <script>
+                //WebAPI는 HTML상에서 대부분 javascript로 호출
+                $(document).ready(function () {
+                    //AJAX (Asyncronous Javascript And Xml) : 비동기 javascript 호출 기술
+                    //C#/Python의 async, await와 동일한 기술
+                    //AJAX로 WebAPI 호출
+                    $.getJSON("http://localhost:6200/api/TodoItems", function (data) {
+                            alert("웹 API 호출 성공!")
+                    });
+                });
+
+            </script>
+        </head>
+        ```
+        - <img src='./day86/cors에러.png' width=500>
+    - WebAPI 서버 프로젝트(WebApiApp01)의 Program.cs에 CORS 사용설정  [ CORS 사용설정](./day86/Day13Study/WebApiApp01/Program.cs)
+        - AJAX (Asyncronous Javascript And Xml) : 비동기 javascript 호출 기술
+            - 예전에 XML로만 데이터 전달. 현재는 Json으로 이전 중
+        - CORS Policy Block (Cross Origin Resource Sharing) : 다른 출처 리소스 접근허용 보안 매커니즘
+            - 아무나 URL로 호출을 못하도록 웹페이지 보안설정
+            - Program.cs에 CORS 사용설정 
+        ```cs
+        //cors 설정
+        builder.Services.AddCors(
+            options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5141")   //WebFrontEndApp2의 launchSettings.json의 포트번호
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                });
+            }
+        );
+
+        app.UseCors("AllowFrontend");
+        ```
+        - <img src='./day86/cors에러해결.png' width=500>
+    
+ 
+
+    1. GET
+        - 정적 wwwroot/index.html  API호출한 데이터를 화면에 띄우기  [index.html](./day86/Day13Study/WebFrontEndApp2/wwwroot/index.html)
+            ```js
+            <head>
+                <script>
+                //WebAPI는 HTML상에서 대부분 javascript로 호출
+                    $(document).ready(function () {
+                        //AJAX (Asyncronous Javascript And Xml) : 비동기 javascript 호출 기술
+                        //C#/Python의 async, await와 동일한 기술
+                        //AJAX로 WebAPI 호출
+                        $.getJSON("http://localhost:6200/api/TodoItems", function (data) {
+                            //alert("웹 API 호출 성공!")
+                            //console.log(data)
+                            $.each(data, function (key, val) {
+                                let isComplete = val.isComplete;
+                                $(`<label class="list-group-item d-flex gap-3">
+                                        <input class="form-check-input flex-shrink-0" type="checkbox" value=""  ${isComplete == 1 ? 'checked' : ''}/>
+                                        <span>
+                                            <strong>${val.title}</strong>
+                                            <small class="d-block text-body-secondary">
+                                                <i class="bi bi-calendar-check"></i>
+                                                ${val.todoDate.slice(0,4)+'-'+val.todoDate.slice(4,6)+'-' +val.todoDate.slice(6,8)}
+                                            </small>
+                                        </span>
+                                    </label>`, { text: '' }).appendTo($('#todoItems'));
+                            });
+                        });
+                    });
+                </script>
+            </head>
+            <body>
+                <div class="list-group text-start" id="todoItems">
+                </div>
+            </body>
+            ```
+    2. GET{ID}
+        -  정적 wwwroot/index.html 에 검색창 만들기
+            ```js
+            $(document).ready(function () {
+            
+                //2. 검색창 이벤트
+                $('#btnQuery').click(function () {
+                    let id = $('#id').val();
+                    //alert(id);
+                    $.getJSON(`http://localhost:6200/api/TodoItems/${id}`, function (data) {
+                        //console.log(data);
+                        $('#todoItems').empty();
+                        let isComplete = data.isComplete;
+                        $(`<label class="list-group-item d-flex gap-3">
+                            <input class="form-check-input flex-shrink-0" type="checkbox" value=""  ${isComplete == 1 ? 'checked' : ''}/>
+                            <span>
+                                <strong>${data.title}</strong>
+                                <small class="d-block text-body-secondary">
+                                    <i class="bi bi-calendar-check"></i>
+                                    ${data.todoDate.slice(0, 4) + '-' + data.todoDate.slice(4, 6) + '-' + data.todoDate.slice(6, 8)}
+                                </small>
+                            </span>
+                        </label>`, { text: '' }).appendTo($('#todoItems'));
+                    });
+                });
+            });
+            ```
+        - 요즘은 대부분 form → 서버 렌더링 방식은 간단한 폼 외에는 잘 안 씁니다. AJAX (혹은 fetch, axios, jQuery 등)는 현대적인 웹 UI의 기본이에요.
+      
+        - <img src='./day86/form,ajax비교1.png' width=500>
+        - <img src='./day86/form,ajax비교2.png' width=500>
+
+    3. POST
+        - <img src='./day86/정규식.png' width=500>
+        ```js
+        $('#btnInsert').click(function () {
+            //alert('저장버튼클릭')
+            //값이 null인지 아닌지 조건문
+            
+            if ($('#i_title').val() == '' || $('#i_todoDate').val() == '') alert('할일과 종료일은 필수입니다.')
+
+            var todoItem = { 
+                'id': 0,
+                'title': $('#i_title').val(),
+                'todoDate': $('#i_todoDate').val().replace(/-/g,''),
+                'isComplete': $('#i_isComplete').prop('checked')
+            }
+            // console.log(todoItem);
+            // INSERT, UPDATE, DELETE는 .ajax()사용
+            $.ajax("http://localhost:6200/api/TodoItems", {
+                type: 'POST',
+                data: JSON.stringify(todoItem),
+                contentType: 'application/json',
+                success: (data) => {
+                    if (typeof (data) == 'object')
+                        data = JSON.stringify(data);
+                    var item = JSON.parse(data);
+                    alert(`${item.id} / 할일이 한건 추가되었습니다.`)
+                    getData();
+                }
+            });
+        });
+        ```
+## 87일차(6/12)
+### ASP.NET Core API 서버  - WebAPI 서버 + 웹사이트
+#### WebAPI 서버 + 웹사이트 with ASP.NET Core  비어있음 프로젝트 
+- 86일차  WebAPI 서버 + 웹사이트 with ASP.NET Core  비어있음 프로젝트  계속 이어 진행
+    4. UPDATE
+    5. DELETE
+
+
+
 
 ### AWS 클라우드 업로드
+- AWS 라이트세일로 웹사이트 업로드
+
+### 부가적인 기능
+- OAuth (구글 로그인)
+- 파일업로드
+
 
 - 자습 때 할 것들
     - DAY77 : MODERN BUSINESS - ABOUT, BOARD, CONCAT
@@ -1894,3 +2092,6 @@ https://github.com/user-attachments/assets/cfd6da8e-fdf2-4933-bfb1-9abe8a990c1c
         - Contact뷰 -에러메시지
         - Contact() post 메서드 신규 추가 
         - 메일관련 작업 - pendding
+
+
+## 88일차(6/13)

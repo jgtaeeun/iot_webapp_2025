@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width , initial-scale =1.0" />
+    <title>TodoList App</title>
+
+    <!--css -->
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="lib/bootstrap-icons/font/bootstrap-icons.min.css" />
+
+    <!--jQuery는 로드 이벤트이기에 head에 들어가야 할 때도 있음-->
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script>
+        //WebAPI는 HTML상에서 대부분 javascript로 호출
+        $(document).ready(function () {
+            //AJAX (Asyncronous Javascript And Xml) : 비동기 javascript 호출 기술
+            //C#/Python의 async, await와 동일한 기술
+
+            ////1. AJAX로 WebAPI 호출
+
+            //$.getJSON("http://localhost:6200/api/TodoItems", function (data) {
+            //    //alert("웹 API 호출 성공!")
+            //    //console.log(data)
+            //    $.each(data, function (key, val) {
+            //        let isComplete = val.isComplete;
+            //        $(`<label class="list-group-item d-flex gap-3">
+            //                 <input class="form-check-input flex-shrink-0" type="checkbox" value=""  ${isComplete == 1 ? 'checked' : ''}/>
+            //                 <span>
+            //                     <strong>${val.title}</strong>
+            //                     <small class="d-block text-body-secondary">
+            //                         <i class="bi bi-calendar-check"></i>
+            //                         ${val.todoDate.slice(0,4)+'-'+val.todoDate.slice(4,6)+'-' +val.todoDate.slice(6,8)}
+            //                     </small>
+            //                 </span>
+            //             </label>`, { text: '' }).appendTo($('#todoItems'));
+            //    });
+            //});
+
+           
+                // getData를 화살표 함수로 정의
+                var getData = () => {
+                    $.getJSON("http://localhost:6200/api/TodoItems", function (data) {
+                        $('#todoItems').empty(); // 이전 데이터 초기화
+                        $.each(data, function (key, val) {
+                            let isComplete = val.isComplete;
+                            $(`<label class="list-group-item d-flex gap-3">
+                    <input class="form-check-input flex-shrink-0" type="checkbox" value="" ${isComplete == 1 ? 'checked' : ''}/>
+                    <span>
+                        <strong>${val.title}</strong>
+                        <small class="d-block text-body-secondary">
+                            <i class="bi bi-calendar-check"></i>
+                            ${val.todoDate.slice(0, 4) + '-' + val.todoDate.slice(4, 6) + '-' + val.todoDate.slice(6, 8)}
+                        </small>
+                    </span>
+                </label>`).appendTo($('#todoItems'));
+                        });
+                    });
+                };
+
+                // getData 호출
+                getData();
+
+            //2. 검색창 이벤트
+            $('#btnQuery').click(function () {
+                let id = $('#id').val();
+                //alert(id);
+                $.getJSON(`http://localhost:6200/api/TodoItems/${id}`, function (data) {
+                    //console.log(data);
+                    $('#todoItems').empty();
+                    let isComplete = data.isComplete;
+                   $(`<label class="list-group-item d-flex gap-3">
+                        <input class="form-check-input flex-shrink-0" type="checkbox" value=""  ${isComplete == 1 ? 'checked' : ''}/>
+                        <span>
+                            <strong>${data.title}</strong>
+                            <small class="d-block text-body-secondary">
+                                 <i class="bi bi-calendar-check"></i>
+                                 ${data.todoDate.slice(0, 4) + '-' + data.todoDate.slice(4, 6) + '-' + data.todoDate.slice(6, 8)}
+                            </small>
+                        </span>
+                    </label>`, { text: '' }).appendTo($('#todoItems'));
+                });
+            });
+            //3. post이벤트
+            $('#btnInsert').click(function () {
+                //alert('저장버튼클릭')
+                //값이 null인지 아닌지 조건문
+                
+                if ($('#i_title').val() == '' || $('#i_todoDate').val() == '') {
+                    alert('할일과 종료일은 필수입니다.');
+                    return;
+                }
+
+
+                var todoItem = { 
+                    'id': 0,
+                    'title': $('#i_title').val(),
+                    'todoDate': $('#i_todoDate').val().replace(/-/g,''),
+                    'isComplete': $('#i_isComplete').prop('checked')
+                }
+                // console.log(todoItem);
+                // INSERT, UPDATE, DELETE는 .ajax()사용
+                $.ajax("http://localhost:6200/api/TodoItems", {
+                    type: 'POST',
+                    data: JSON.stringify(todoItem),
+                    contentType: 'application/json',
+                    success: (data) => {
+                        if (typeof (data) == 'object')
+                            data = JSON.stringify(data);
+                        var item = JSON.parse(data);
+                        alert(`${item.id} / 할일이 한건 추가되었습니다.`)
+                        getData();
+                    }
+                });
+            });
+        });
+
+       
+
+    </script>
+</head>
+<body>
+    <div class="text-center mt-5">
+        <h2 class="display-5 fw-bolder">Todo List</h2>
+        <div class="container mt-5">
+            <div class="row justify-content-end">
+                <div class="col-6">
+                    <div class="input-group">
+                        <input type="text" id="id" class="form-control" placeholder="ID"/>
+                        <input type="button" id="btnQuery" value="Query" class="btn btn-secondary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container text-center mt-2">
+        <!--<ul class="list-group">
+            <li class="list-group-item">First Item</li>
+            <li class="list-group-item">Second Item</li>
+            <li class="list-group-item">Third Item</li>
+            <li class="list-group-item">Fourth Item</li>
+
+        </ul>-->
+        <div class="list-group text-start" id="todoItems">
+            <!--<label class="list-group-item d-flex gap-3">
+                <input class="form-check-input flex-shrink-0" type="checkbox" value="" checked />
+                <span>
+                    <strong>FPS 게임 프로젝트 - Dealer 궁극기 스킬 구현</strong>
+                    <small class="d-block text-body-secondary">
+                        <i class="bi bi-calendar-check"></i>
+                        2025-06-11
+                    </small>
+                </span>
+            </label>
+            <label class="list-group-item d-flex gap-3">
+                <input class="form-check-input flex-shrink-0" type="checkbox" value="" />
+                <span>
+                    <strong>FPS 게임 프로젝트 - 힐러 스킬 구현</strong>
+                    <small class="d-block text-body-secondary">
+                        <i class="bi bi-calendar-check"></i>
+                        2025-06-12
+                    </small>
+                </span>
+            </label>-->
+        </div>
+        <hr />
+        <div class="container text-center" >
+            <div class="row justify-content-center">
+                <div class="col-8">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            할일 입력
+                        </div>
+                        <div class="card-body  text-start">
+                            <div class="mb-2">
+                                <input type="text" id="i_id" class="form-control" placeholder="ID" readonly />
+                            </div>
+                            <div class="mb-2">
+                                <input type="text" id="i_title" class="form-control" placeholder="Todo" />
+                            </div>
+                            <div class="mb-2">
+                                <input type="date" id="i_todoDate" class="form-control" placeholder="TodoDate" />
+                            </div>
+                            <div class="mb-2">
+                                <input type="checkbox" id="i_isComplete" class="form-check-input" />
+                                <label class="form-check-label" for="i_isComplete">완료여부</label>
+                            </div>
+
+                            <div class="mb-0 text-end" >
+                                <input type="button" id="btnInsert" value="Save" class="btn btn-primary" />
+                            </div>
+                         
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- js-->
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="js/site.js"></script>
+
+</body>
+</html>
