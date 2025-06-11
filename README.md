@@ -2068,6 +2068,11 @@ https://github.com/user-attachments/assets/cfd6da8e-fdf2-4933-bfb1-9abe8a990c1c
             });
         });
         ```
+
+
+https://github.com/user-attachments/assets/9def75ee-5e69-47de-a66e-0846fcdab30d
+
+
 ## 87일차(6/12)
 ### ASP.NET Core API 서버  - WebAPI 서버 + 웹사이트
 #### WebAPI 서버 + 웹사이트 with ASP.NET Core  비어있음 프로젝트 
