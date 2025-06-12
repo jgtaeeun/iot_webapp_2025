@@ -1986,7 +1986,7 @@ https://github.com/user-attachments/assets/cfd6da8e-fdf2-4933-bfb1-9abe8a990c1c
                             $.each(data, function (key, val) {
                                 let isComplete = val.isComplete;
                                 $(`<label class="list-group-item d-flex gap-3">
-                                        <input class="form-check-input flex-shrink-0" type="checkbox" value=""  ${isComplete == 1 ? 'checked' : ''}/>
+                                        <input class="form-check-input flex-shrink-0" type="checkbox" value="" disabled  ${isComplete == 1 ? 'checked' : ''}/>
                                         <span>
                                             <strong>${val.title}</strong>
                                             <small class="d-block text-body-secondary">
@@ -2019,7 +2019,7 @@ https://github.com/user-attachments/assets/cfd6da8e-fdf2-4933-bfb1-9abe8a990c1c
                         $('#todoItems').empty();
                         let isComplete = data.isComplete;
                         $(`<label class="list-group-item d-flex gap-3">
-                            <input class="form-check-input flex-shrink-0" type="checkbox" value=""  ${isComplete == 1 ? 'checked' : ''}/>
+                            <input class="form-check-input flex-shrink-0" type="checkbox" value="" disabled  ${isComplete == 1 ? 'checked' : ''}/>
                             <span>
                                 <strong>${data.title}</strong>
                                 <small class="d-block text-body-secondary">
@@ -2075,15 +2075,38 @@ https://github.com/user-attachments/assets/9def75ee-5e69-47de-a66e-0846fcdab30d
 
 ## 87일차(6/12)
 ### ASP.NET Core API 서버  - WebAPI 서버 + 웹사이트
-#### WebAPI 서버 + 웹사이트 with ASP.NET Core  비어있음 프로젝트 
+#### WebAPI 서버 + 웹사이트 with ASP.NET Core  비어있음 프로젝트 [WebAPI 서버 + 웹사이트 with ASP.NET Core ](./day87/Day14Study/WebFrontEndApp2/)
 - 86일차  WebAPI 서버 + 웹사이트 with ASP.NET Core  비어있음 프로젝트  계속 이어 진행
+    |API|설명|Request body|Response body|
+    |:--|:--|:--|:--|
+    |GET ~/api/todoitems|모든 할일정보 가져오기|None|할일정보 배열|
+    |GET ~/api/todoitems/{id}|특정 할일정보 가져오기|None|할일정보 한건|
+    |POST ~/api/todoitems|새 할일 추가|todoitem 데이터|todoitem 데이터|
+    |PUT ~/api/todoitems/{id}|기존 할일 수정|todoitem 데이터|None|
+    |DELETE ~/api/todoitems/{id}/기존 할일 삭제|None|None|
+
+
+    2. GET{id} 수정
+        - id가 없을 때는 GET 함수
+        - id가 있을 때 폼칸에 선택한 id의 정보를 넣기
     4. UPDATE
     5. DELETE
+    
+- 실행화면
 
-
-
+- 결론
+    - WebAPI로 백엔드를 운영하면 프론트는 모두 사용가능(웹앱, 윈앱, 모바일앱)
 
 ### AWS 클라우드 업로드
+- 클라우드서비스 사용 : 어디서나 웹사이트 공개
+- 온프레미스 : 직접 서버를 구축, DB서버구축, 웹서버 구축 등 직접 운영
+    - 서버 하드웨어 구매, 서버실 구축, UPS 구성, 네트워크 스위치 구성
+    - OS구매, SW구매, 운영환경 구성, 개발환경 구성
+    - 운영하면 문제 해결, 유지보수
+- 클라우드 : 서버구축 필요없음, DB서버 신청 생성
+    - 서버실 구축 X, 하드웨어 구매 X, SW구매 X, 운영문제 관리 x
+    - 사용료가 저렴하지 않음
+    
 - AWS 라이트세일로 웹사이트 업로드
 
 ### 부가적인 기능
