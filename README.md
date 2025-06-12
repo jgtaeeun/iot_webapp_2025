@@ -2094,6 +2094,10 @@ https://github.com/user-attachments/assets/9def75ee-5e69-47de-a66e-0846fcdab30d
     
 - 실행화면
 
+
+https://github.com/user-attachments/assets/0f92496a-ffaf-498e-8a9d-23095f7bd085
+
+
 - 결론
     - WebAPI로 백엔드를 운영하면 프론트는 모두 사용가능(웹앱, 윈앱, 모바일앱)
 
