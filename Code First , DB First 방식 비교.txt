@@ -21,7 +21,7 @@ update-database
 ✅ 2. DB First 방식
 📂 절차 요약
 1. DB 스키마가 이미 존재
-2. NuGet 패키지 설치 (역시 버전 통일 필수)
+2. NuGet 패키지 설치 (역시 버전 통일 필수) - entityframeworkcore,entitiyframeworkcore tools, pomelo
 3. appsettings.json에 연결 문자열 추가
 4. 패키지 관리자 콘솔
 Scaffold-DbContext 명령어로 DB → 코드 생성
