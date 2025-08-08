@@ -1085,12 +1085,11 @@ https://github.com/user-attachments/assets/294b5cd4-a7a6-4481-a6b4-8360bdee63dc
 - Book, Rental테이블 create, update 실행
   
 
-https://github.com/user-attachments/assets/acb98dad-33e2-4268-8b4b-5613a582e635
 
 
 
+https://github.com/user-attachments/assets/7c3492ce-3747-4b53-8a48-40bb84ad3b94
 
-https://github.com/user-attachments/assets/49835d24-9115-4696-8723-c57ab450dc87
 
 
 
