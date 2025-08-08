@@ -17,6 +17,7 @@ public partial class Bookstbl
 
     public string? Names { get; set; }
 
+    [DataType(DataType.Date)]
     public DateTime? ReleaseDate { get; set; }
 
     public string? Isbn { get; set; }
